@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskaia/presentation/features/auth/view/login_screen.dart';
+import 'package:taskaia/presentation/features/auth/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
