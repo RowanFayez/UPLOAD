@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TaskAIA',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      
     );
   }
 }
