@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:taskaia/presentation/features/auth/screens/login_screen.dart';
+import 'core/theme/app_theme.dart';
+import 'core/routing/app_routes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AlexTramApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AlexTramApp extends StatelessWidget {
+  const AlexTramApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TaskAIA',
+      title: 'Alex Tram',
       debugShowCheckedModeBanner: false,
-      
+      theme: AppTheme.lightTheme,
+      initialRoute: AppRoutes.login,
+      routes: AppRoutes.routes,
     );
   }
 }
