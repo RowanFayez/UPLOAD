@@ -1,7 +1,7 @@
 class AuthController {
   Future<void> login(String email, String password) async {
-    // TODO: Replace with real auth
     print("Logging in with: \$email / \$password");
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 
   Future<void> signup(
@@ -10,7 +10,7 @@ class AuthController {
     String password,
     String phone,
   ) async {
-    // TODO: Replace with real signup
     print("Signing up \$name with \$email and \$phone");
+    await Future.delayed(const Duration(milliseconds: 500));
   }
 }

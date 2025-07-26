@@ -15,6 +15,7 @@ class _LoginFormState extends State<LoginForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool rememberMe = false;
+  bool obscurePassword = true;
   final authController = AuthController();
 
   @override
@@ -23,10 +24,21 @@ class _LoginFormState extends State<LoginForm> {
       children: [
         AppTextField(hint: 'Enter your email', controller: emailController),
         const SizedBox(height: 16),
-        AppTextField(
-          hint: 'Enter your password',
+        TextField(
           controller: passwordController,
-          obscureText: true,
+          obscureText: obscurePassword,
+          decoration: InputDecoration(
+            hintText: 'Enter your password',
+            suffixIcon: IconButton(
+              icon: Icon(
+                obscurePassword ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() => obscurePassword = !obscurePassword);
+              },
+            ),
+            border: const OutlineInputBorder(),
+          ),
         ),
         const SizedBox(height: 8),
         Row(
@@ -44,10 +56,18 @@ class _LoginFormState extends State<LoginForm> {
         AppButton(
           label: "Sign In",
           onPressed: () {
-            authController.login(
-              emailController.text.trim(),
-              passwordController.text.trim(),
-            );
+            authController
+                .login(
+                  emailController.text.trim(),
+                  passwordController.text.trim(),
+                )
+                .then((_) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    '/home',
+                    (route) => false,
+                  );
+                });
           },
         ),
       ],

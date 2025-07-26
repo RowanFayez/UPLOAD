@@ -34,6 +34,15 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/home');
+                  },
+                  child: const Text("Explore without account"),
+                ),
+              ),
             ],
           ),
         ),
