@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskaia/core/theme/app_strings.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../controller/auth_controller.dart';
@@ -11,55 +12,62 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final phoneController = TextEditingController();
-  final authController = AuthController();
+  final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppTextField(hint: "Full Name", controller: nameController),
-        const SizedBox(height: 16),
-        AppTextField(hint: "Email", controller: emailController),
-        const SizedBox(height: 16),
-        AppTextField(hint: "Mobile Number", controller: phoneController),
-        const SizedBox(height: 16),
-        AppTextField(
-          hint: "Password",
-          controller: passwordController,
-          obscureText: true,
-        ),
-        const SizedBox(height: 24),
-        AppButton(
-          label: "Sign Up",
-          onPressed: () {
-            authController
-                .signup(
-                  nameController.text.trim(),
-                  emailController.text.trim(),
-                  passwordController.text.trim(),
-                  phoneController.text.trim(),
-                )
-                .then((_) {
-                  Navigator.pop(context); // ✅ بعد sign up ارجعي لل login
-                });
-          },
-        ),
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Already have an account?"),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Log in"),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(labelText: AppStrings.name),
+            validator: (value) =>
+                value!.isEmpty ? AppStrings.nameRequired : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            decoration: const InputDecoration(labelText: AppStrings.email),
+            validator: (value) =>
+                value!.isEmpty ? AppStrings.emailRequired : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            decoration: const InputDecoration(labelText: AppStrings.phone),
+            validator: (value) =>
+                value!.isEmpty ? AppStrings.phoneRequired : null,
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            obscureText: _obscurePassword,
+            decoration: InputDecoration(
+              labelText: AppStrings.password,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              ),
             ),
-          ],
-        ),
-      ],
+            validator: (value) =>
+                value!.isEmpty ? AppStrings.passwordRequired : null,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                Navigator.pop(context);
+              }
+            },
+            child: const Text(AppStrings.signUp),
+          ),
+        ],
+      ),
     );
   }
 }

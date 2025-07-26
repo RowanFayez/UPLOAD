@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/animation/slide_transition_wrapper.dart';
+import '../../../../core/theme/app_strings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,23 +43,18 @@ class _HomeScreenState extends State<HomeScreen>
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context),
           ),
-          title: const Text("Home"),
+          title: const Text(AppStrings.homeTitle),
         ),
         body: Stack(
           children: [
-            const Center(
-              child: Text("Welcome to Alexandria Tram Guide"),
-            ),
+            const Center(child: Text(AppStrings.homeWelcome)),
             SlideTransition(
               position: _tramAnimation,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 40),
-                  child: Image.asset(
-                    'assets/tram.png',
-                    width: 120,
-                  ),
+                  child: Image.asset('lib/assets/tram.png', width: 120),
                 ),
               ),
             ),

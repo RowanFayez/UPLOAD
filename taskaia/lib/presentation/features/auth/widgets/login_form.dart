@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskaia/core/theme/app_strings.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/routing/app_routes.dart';
@@ -12,65 +13,50 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool rememberMe = false;
-  bool obscurePassword = true;
-  final authController = AuthController();
+  final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppTextField(hint: 'Enter your email', controller: emailController),
-        const SizedBox(height: 16),
-        TextField(
-          controller: passwordController,
-          obscureText: obscurePassword,
-          decoration: InputDecoration(
-            hintText: 'Enter your password',
-            suffixIcon: IconButton(
-              icon: Icon(
-                obscurePassword ? Icons.visibility_off : Icons.visibility,
-              ),
-              onPressed: () {
-                setState(() => obscurePassword = !obscurePassword);
-              },
-            ),
-            border: const OutlineInputBorder(),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(labelText: AppStrings.email),
+            validator: (value) =>
+                value!.isEmpty ? AppStrings.emailRequired : null,
           ),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Checkbox(
-              value: rememberMe,
-              onChanged: (val) => setState(() => rememberMe = val ?? false),
+          const SizedBox(height: 16),
+          TextFormField(
+            obscureText: _obscurePassword,
+            decoration: InputDecoration(
+              labelText: AppStrings.password,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscurePassword = !_obscurePassword;
+                  });
+                },
+              ),
             ),
-            const Text("Remember me"),
-            const Spacer(),
-            TextButton(onPressed: () {}, child: const Text("Forgot password?")),
-          ],
-        ),
-        const SizedBox(height: 16),
-        AppButton(
-          label: "Sign In",
-          onPressed: () {
-            authController
-                .login(
-                  emailController.text.trim(),
-                  passwordController.text.trim(),
-                )
-                .then((_) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/home',
-                    (route) => false,
-                  );
-                });
-          },
-        ),
-      ],
+            validator: (value) =>
+                value!.isEmpty ? AppStrings.passwordRequired : null,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                // Handle login
+              }
+            },
+            child: const Text(AppStrings.login),
+          ),
+        ],
+      ),
     );
   }
 }

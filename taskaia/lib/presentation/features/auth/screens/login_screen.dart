@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/presentation/features/home/view/home_screen.dart';
 import '../widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -14,23 +16,23 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Welcome Back",
+                AppStrings.welcomeBack,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text("Sign in to plan your journey in Alexandria"),
+              const Text(AppStrings.signInToPlan),
               const SizedBox(height: 32),
               const LoginForm(),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don’t have an account?"),
+                  const Text(AppStrings.dontHaveAccount),
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/signup');
                     },
-                    child: const Text("Create one"),
+                    child: const Text(AppStrings.createOne),
                   ),
                 ],
               ),
@@ -38,9 +40,14 @@ class LoginScreen extends StatelessWidget {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
                   },
-                  child: const Text("Explore without account"),
+                  child: const Text(AppStrings.exploreAsGuest),
                 ),
               ),
             ],
