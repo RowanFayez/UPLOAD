@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/animation/slide_transition_wrapper.dart';
+import 'package:taskaia/core/managers/alert_manager.dart';
 import '../../../../core/theme/app_strings.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,6 +35,12 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
   }
 
+  void _onLogoutPressed() {
+    AlertManager.showLogoutConfirmation(context, () {
+      Navigator.pushReplacementNamed(context, '/login');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SlideTransitionWrapper(
@@ -44,6 +51,12 @@ class _HomeScreenState extends State<HomeScreen>
             onPressed: () => Navigator.pop(context),
           ),
           title: const Text(AppStrings.homeTitle),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: _onLogoutPressed,
+            ),
+          ],
         ),
         body: Stack(
           children: [

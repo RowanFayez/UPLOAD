@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/core/managers/alert_manager.dart';
 import 'package:taskaia/presentation/features/home/view/home_screen.dart';
 import '../widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
+  void _handleLogin(BuildContext context) {
+    AlertManager.showWelcomeToast();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +48,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Center(
                 child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                    );
-                  },
+                  onPressed: () => _handleLogin(context),
                   child: const Text(AppStrings.exploreAsGuest),
                 ),
               ),
