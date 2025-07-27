@@ -7,6 +7,7 @@ class AppRoutes {
   static const String login = '/';
   static const String signup = '/signup';
   static const String home = '/home';
+  static const String productDetails = '/product-details';
 
   static final Map<String, WidgetBuilder> routes = {
     login: (context) => const LoginScreen(),
