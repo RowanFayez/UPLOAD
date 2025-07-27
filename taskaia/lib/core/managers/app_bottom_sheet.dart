@@ -187,7 +187,7 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
                       child: Text(
                         widget.confirmText,
                         style: const TextStyle(
-                          color: AppColors.white,
+                          color: AppColors.textOnPrimary,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),

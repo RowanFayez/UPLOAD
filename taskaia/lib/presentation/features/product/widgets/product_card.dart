@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskaia/core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import 'package:taskaia/data/models/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -16,11 +16,11 @@ class ProductCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isDark ? Colors.grey[800] : Colors.white,
+          color: isDark ? AppColors.darkCard : AppColors.productBackground,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: AppColors.cardShadow,
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -40,7 +40,7 @@ class ProductCard extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: AppColors.productImagePlaceholder,
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(16),
                       ),
@@ -49,8 +49,12 @@ class ProductCard extends StatelessWidget {
                       product.imageUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.image_not_supported, size: 40),
+                        color: AppColors.productImagePlaceholder,
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          size: 40,
+                          color: AppColors.textLight,
+                        ),
                       ),
                     ),
                   ),
@@ -70,7 +74,7 @@ class ProductCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : Colors.black,
+                      color: isDark ? AppColors.darkText : AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -81,7 +85,7 @@ class ProductCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                      color: AppColors.productPrice,
                     ),
                   ),
                 ],

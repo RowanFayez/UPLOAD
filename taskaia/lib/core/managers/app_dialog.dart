@@ -136,7 +136,7 @@ class _InstructionDialogState extends State<_InstructionDialog>
                   child: Text(
                     widget.buttonText,
                     style: const TextStyle(
-                      color: AppColors.white,
+                      color: AppColors.textOnPrimary,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),

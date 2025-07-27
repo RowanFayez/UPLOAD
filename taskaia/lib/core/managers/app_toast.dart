@@ -132,7 +132,7 @@ class _ToastWidgetState extends State<_ToastWidget>
                             child: Text(
                               widget.subtitle!,
                               style: const TextStyle(
-                                color: AppColors.white,
+                                color: AppColors.textOnPrimary,
                                 fontSize: 14,
                               ),
                             ),
@@ -145,7 +145,7 @@ class _ToastWidgetState extends State<_ToastWidget>
                     onTap: widget.onDismiss,
                     child: const Icon(
                       Icons.close,
-                      color: AppColors.white,
+                      color: AppColors.textOnPrimary,
                       size: 20,
                     ),
                   ),

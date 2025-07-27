@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskaia/core/animation/slide_transition_wrapper.dart';
+import '../../../../core/animation/slide_transition_wrapper.dart';
+import '../../../../core/animation/page_transitions.dart';
 import 'package:taskaia/core/managers/app_bottom_sheet.dart';
 import 'package:taskaia/core/routing/app_routes.dart';
 import 'package:taskaia/core/theme/theme_manager.dart';
@@ -94,34 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    ProductDetailsScreen(product: product),
-                            transitionDuration: const Duration(
-                              milliseconds: 500,
-                            ),
-                            transitionsBuilder:
-                                (
-                                  context,
-                                  animation,
-                                  secondaryAnimation,
-                                  child,
-                                ) {
-                                  return SlideTransition(
-                                    position:
-                                        Tween<Offset>(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).animate(
-                                          CurvedAnimation(
-                                            parent: animation,
-                                            curve: Curves.easeInOut,
-                                          ),
-                                        ),
-                                    child: child,
-                                  );
-                                },
+                          PageTransitions.slideTransition(
+                            ProductDetailsScreen(product: product),
+                            duration: const Duration(milliseconds: 500),
                           ),
                         );
                       },
