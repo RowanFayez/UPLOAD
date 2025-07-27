@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:taskaia/core/managers/app_dialog.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
-import 'package:taskaia/core/managers/alert_manager.dart';
 import 'package:taskaia/presentation/features/home/view/home_screen.dart';
 import '../widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  void _handleLogin(BuildContext context) {
-    AlertManager.showWelcomeToast();
-    Navigator.push(
+  void _showSignupInstructions(BuildContext context) {
+    AppDialog.showInstructionDialog(
       context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      title: AppStrings.signupInstructions,
+      content: AppStrings.signupInstructionsBody,
+      buttonText: AppStrings.gotIt,
+      onPressed: () {
+        Navigator.of(context).pop(); // Close dialog
+        Navigator.pushNamed(context, '/signup'); // Navigate to signup
+      },
     );
   }
 
@@ -38,9 +43,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   const Text(AppStrings.dontHaveAccount),
                   TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
-                    },
+                    onPressed: () => _showSignupInstructions(context),
                     child: const Text(AppStrings.createOne),
                   ),
                 ],
@@ -48,7 +51,14 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Center(
                 child: TextButton(
-                  onPressed: () => _handleLogin(context),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  },
                   child: const Text(AppStrings.exploreAsGuest),
                 ),
               ),

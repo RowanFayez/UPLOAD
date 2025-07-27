@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/animation/slide_transition_wrapper.dart';
-import 'package:taskaia/core/managers/alert_manager.dart';
+import 'package:taskaia/core/managers/app_bottom_sheet.dart';
+import 'package:taskaia/core/routing/app_routes.dart';
 import '../../../../core/theme/app_strings.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,10 +37,23 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
   }
 
-  void _onLogoutPressed() {
-    AlertManager.showLogoutConfirmation(context, () {
-      Navigator.pushReplacementNamed(context, '/login');
-    });
+  void _showLogoutConfirmation() {
+    AppBottomSheet.showConfirmationSheet(
+      context,
+      title: AppStrings.logoutConfirmation,
+      message: AppStrings.logoutWarning,
+      confirmText: AppStrings.confirmLogout,
+      cancelText: AppStrings.cancel,
+      confirmColor: AppColors.warningRed,
+      onConfirm: () {
+        Navigator.of(context).pop(); // Close bottom sheet
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.login,
+          (route) => false,
+        );
+      },
+    );
   }
 
   @override
@@ -54,20 +69,61 @@ class _HomeScreenState extends State<HomeScreen>
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
-              onPressed: _onLogoutPressed,
+              onPressed: _showLogoutConfirmation,
+              tooltip: AppStrings.logout,
             ),
           ],
         ),
         body: Stack(
           children: [
-            const Center(child: Text(AppStrings.homeWelcome)),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    AppStrings.homeWelcome,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+                  ElevatedButton.icon(
+                    onPressed: _showLogoutConfirmation,
+                    icon: const Icon(Icons.logout, color: AppColors.white),
+                    label: const Text(
+                      AppStrings.logout,
+                      style: TextStyle(color: AppColors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.warningRed,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SlideTransition(
               position: _tramAnimation,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 40),
-                  child: Image.asset('lib/assets/tram.png', width: 120),
+                  child: Container(
+                    width: 120,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: AppColors.accentYellow,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Center(
+                      child: Text('🚋', style: TextStyle(fontSize: 30)),
+                    ),
+                  ),
                 ),
               ),
             ),

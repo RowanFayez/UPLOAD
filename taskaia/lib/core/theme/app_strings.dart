@@ -30,4 +30,18 @@ class AppStrings {
   // Home Screen
   static const String homeTitle = 'Home';
   static const String homeWelcome = 'Welcome to Alexandria Tram Guide';
+  static const String logout = 'Log Out';
+
+  // New strings for alerts and messages
+  static const String welcomeToFamily = 'Welcome to the family! 🎉';
+  static const String loginSuccess = 'You have successfully logged in';
+  static const String signupInstructions = 'Create Your Account';
+  static const String signupInstructionsBody =
+      'Please fill in all the required fields to create your account. Make sure to use a valid email address and a strong password for better security.';
+  static const String gotIt = 'Got it!';
+  static const String logoutConfirmation = 'Confirm Logout';
+  static const String logoutWarning =
+      'Are you sure you want to log out? You will need to sign in again to access your account.';
+  static const String cancel = 'Cancel';
+  static const String confirmLogout = 'Log Out';
 }
