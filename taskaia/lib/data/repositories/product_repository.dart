@@ -1,5 +1,5 @@
 import '../models/product.dart';
-import '../products_data.dart';
+import '../datasources/product_data_source.dart';
 
 abstract class ProductRepository {
   Future<List<Product>> getAllProducts();
@@ -13,20 +13,20 @@ class LocalProductRepository implements ProductRepository {
   Future<List<Product>> getAllProducts() async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 300));
-    return ProductsData.getAllProducts();
+    return ProductDataSource.getAllProducts();
   }
 
   @override
   Future<List<Product>> getProductsByCategory(String category) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    final allProducts = ProductsData.getAllProducts();
+    final allProducts = ProductDataSource.getAllProducts();
     return allProducts.where((product) => product.category == category).toList();
   }
 
   @override
   Future<Product?> getProductById(String id) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    final allProducts = ProductsData.getAllProducts();
+    final allProducts = ProductDataSource.getAllProducts();
     try {
       return allProducts.firstWhere((product) => product.id == id);
     } catch (e) {
@@ -37,6 +37,6 @@ class LocalProductRepository implements ProductRepository {
   @override
   Future<List<String>> getCategories() async {
     await Future.delayed(const Duration(milliseconds: 200));
-    return ProductsData.getCategories();
+    return ProductDataSource.getCategories();
   }
 }

@@ -1,6 +1,6 @@
-import 'models/product.dart';
+import '../models/product.dart';
 
-class ProductsData {
+class ProductDataSource {
   static List<Product> getAllProducts() {
     return [
       ...getSofas(),

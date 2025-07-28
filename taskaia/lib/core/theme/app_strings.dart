@@ -7,7 +7,7 @@ class AppStrings {
   static const String signInToPlan =
       'Sign in to plan your journey in Alexandria';
   static const String login = 'Login';
-  static const String dontHaveAccount = 'Don’t have an account?';
+  static const String dontHaveAccount = 'Don't have an account?';
   static const String createOne = 'Create one';
   static const String exploreAsGuest = 'Explore without account';
 
