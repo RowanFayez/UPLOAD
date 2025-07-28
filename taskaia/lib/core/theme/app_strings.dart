@@ -32,7 +32,7 @@ class AppStrings {
   static const String homeWelcome = 'Welcome to Alexandria Tram Guide';
   static const String logout = 'Log Out';
 
-  // New strings for alerts and messages
+// New strings for alerts and messages
   static const String welcomeToFamily = 'Welcome to the family! 🎉';
   static const String loginSuccess = 'You have successfully logged in';
   static const String signupInstructions = 'Create Your Account';

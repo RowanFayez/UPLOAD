@@ -1,41 +1,45 @@
-import 'models/product.dart';
+// import 'package:taskaia/data/datasources/product_data_source.dart';
+// import 'package:taskaia/data/models/product.dart';
 
-class ProductsData {
-  static List<Product> getSofas() {
-    return [
-      const Product(
-        id: '1',
-        name: 'Modern Sofa Set',
-        price: 299.99,
-        imageUrl:
-            'assets/images/sofa1.jpg', 
-        description:
-            'Comfortable modern sofa perfect for your living room. Made with high-quality materials and elegant design.',
-      ),
-      const Product(
-        id: '2',
-        name: 'Classic Sofa',
-        price: 199.99,
-        imageUrl: 'assets/images/sofa2.png',
-        description:
-            'Classic design sofa with comfortable cushioning. Perfect for family gatherings and relaxation.',
-      ),
-      const Product(
-        id: '3',
-        name: 'Luxury Sofa',
-        price: 499.99,
-        imageUrl: 'assets/images/sofa3.png',
-        description:
-            'Premium luxury sofa with leather finish. Elegant and sophisticated for modern homes.',
-      ),
-      const Product(
-        id: '4',
-        name: 'Compact Sofa',
-        price: 149.99,
-        imageUrl: 'assets/images/sofa4.jpg',
-        description:
-            'Space-saving compact sofa ideal for small apartments. Comfortable and stylish.',
-      ),
-    ];
-  }
-}
+
+// abstract class ProductRepository {
+//   Future<List<Product>> getAllProducts();
+//   Future<List<Product>> getProductsByCategory(String category);
+//   Future<Product?> getProductById(String id);
+//   Future<List<String>> getCategories();
+// }
+
+// class LocalProductRepository implements ProductRepository {
+//   @override
+//   Future<List<Product>> getAllProducts() async {
+//     // Simulate network delay
+//     await Future.delayed(const Duration(milliseconds: 300));
+//     return ProductDataSource.getAllProducts();
+//   }
+
+//   @override
+//   Future<List<Product>> getProductsByCategory(String category) async {
+//     await Future.delayed(const Duration(milliseconds: 300));
+//     final allProducts = ProductDataSource.getAllProducts();
+//     return allProducts
+//         .where((product) => product.category == category)
+//         .toList();
+//   }
+
+//   @override
+//   Future<Product?> getProductById(String id) async {
+//     await Future.delayed(const Duration(milliseconds: 200));
+//     final allProducts = ProductDataSource.getAllProducts();
+//     try {
+//       return allProducts.firstWhere((product) => product.id == id);
+//     } catch (e) {
+//       return null;
+//     }
+//   }
+
+//   @override
+//   Future<List<String>> getCategories() async {
+//     await Future.delayed(const Duration(milliseconds: 200));
+//     return ProductDataSource.getCategories();
+//   }
+// }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
 class ThemeManager extends ChangeNotifier {
   static final ThemeManager _instance = ThemeManager._internal();
@@ -20,17 +21,17 @@ class ThemeManager extends ChangeNotifier {
 
   ThemeData get lightTheme => ThemeData(
     brightness: Brightness.light,
-    scaffoldBackgroundColor: const Color(0xFFF4F6FC),
-    primaryColor: const Color(0xFF0057A7),
+    scaffoldBackgroundColor: AppColors.background,
+    primaryColor: AppColors.primary,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
+      backgroundColor: AppColors.white,
+      foregroundColor: AppColors.black,
       elevation: 0,
       centerTitle: false,
     ),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: AppColors.white,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide.none,
@@ -40,7 +41,7 @@ class ThemeManager extends ChangeNotifier {
       titleLarge: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
-        color: Colors.black,
+        color: AppColors.black,
       ),
       bodyMedium: TextStyle(fontSize: 14, color: Colors.black87),
     ),
@@ -49,17 +50,17 @@ class ThemeManager extends ChangeNotifier {
 
   ThemeData get darkTheme => ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: const Color(0xFF121212),
-    primaryColor: const Color(0xFF0057A7),
+    scaffoldBackgroundColor: AppColors.darkBackground,
+    primaryColor: AppColors.primary,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF1E1E1E),
-      foregroundColor: Colors.white,
+      backgroundColor: AppColors.darkSurface,
+      foregroundColor: AppColors.darkText,
       elevation: 0,
       centerTitle: false,
     ),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
-      fillColor: Color(0xFF2A2A2A),
+      fillColor: AppColors.darkCard,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide.none,
@@ -69,9 +70,9 @@ class ThemeManager extends ChangeNotifier {
       titleLarge: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: AppColors.darkText,
       ),
-      bodyMedium: TextStyle(fontSize: 14, color: Colors.white70),
+      bodyMedium: TextStyle(fontSize: 14, color: AppColors.darkTextSecondary),
     ),
     fontFamily: 'Poppins',
   );
