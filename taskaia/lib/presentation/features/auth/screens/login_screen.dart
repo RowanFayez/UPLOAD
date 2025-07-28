@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/managers/app_dialog.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/core/routing/app_routes.dart';
 import 'package:taskaia/presentation/features/home/view/home_screen.dart';
 import '../widgets/login_form.dart';
 
@@ -15,7 +16,11 @@ class LoginScreen extends StatelessWidget {
       buttonText: AppStrings.gotIt,
       onPressed: () {
         Navigator.of(context).pop(); // Close dialog
-        Navigator.pushNamed(context, '/signup'); // Navigate to signup
+        // Navigate to signup with slide transition
+        AppRoutes.navigateToSignup(
+          context,
+          transition: TransitionType.slideFromRight,
+        );
       },
     );
   }
@@ -52,11 +57,12 @@ class LoginScreen extends StatelessWidget {
               Center(
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
+                    // Navigate to home as guest with fade transition
+                    AppRoutes.navigateWithTransition(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
+                      const HomeScreen(),
+                      transition: TransitionType.fade,
+                      duration: const Duration(milliseconds: 500),
                     );
                   },
                   child: const Text(AppStrings.exploreAsGuest),

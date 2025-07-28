@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/managers/app_toast.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/core/routing/app_routes.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/app_button.dart';
-import '../../../../../core/routing/app_routes.dart';
 import '../controller/auth_controller.dart';
 
 class LoginForm extends StatefulWidget {
@@ -48,13 +48,13 @@ class _LoginFormState extends State<LoginForm> {
             subtitle: AppStrings.loginSuccess,
           );
 
-          // Navigate to home after a short delay
+          // Navigate to home after a short delay with slide and fade transition
           Future.delayed(const Duration(milliseconds: 500), () {
             if (mounted) {
-              Navigator.pushNamedAndRemoveUntil(
+              AppRoutes.navigateToHome(
                 context,
-                AppRoutes.home,
-                (route) => false,
+                clearStack: true,
+                transition: TransitionType.slideFade,
               );
             }
           });
@@ -62,6 +62,9 @@ class _LoginFormState extends State<LoginForm> {
       } catch (e) {
         // Handle error if needed
         debugPrint('Login error: $e');
+        if (mounted) {
+          AppToast.showSuccess(context, AppStrings.loginError);
+        }
       } finally {
         if (mounted) {
           setState(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_strings.dart';
 
 class ProductRatingWidget extends StatelessWidget {
   final double rating;
@@ -24,9 +25,9 @@ class ProductRatingWidget extends StatelessWidget {
               index < rating.floor()
                   ? Icons.star
                   : index < rating
-                      ? Icons.star_half
-                      : Icons.star_border,
-              color: Colors.amber,
+                  ? Icons.star_half
+                  : Icons.star_border,
+              color: AppColors.ratingYellow, // Changed from Colors.amber
               size: 20,
             );
           }),
@@ -48,10 +49,12 @@ class ProductRatingWidget extends StatelessWidget {
 
         // Review Count
         Text(
-          '($reviewCount reviews)',
+          '($reviewCount ${AppStrings.reviews})', // Added from AppStrings
           style: TextStyle(
             fontSize: 14,
-            color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
+            color: isDark
+                ? AppColors.darkTextSecondary
+                : AppColors.textSecondary,
           ),
         ),
       ],

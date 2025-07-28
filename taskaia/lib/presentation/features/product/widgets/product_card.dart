@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_strings.dart';
 import 'package:taskaia/data/models/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -15,6 +16,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 300, // Fixed height to prevent overflow
         decoration: BoxDecoration(
           color: isDark ? AppColors.darkCard : AppColors.productBackground,
           borderRadius: BorderRadius.circular(16),
@@ -31,6 +33,7 @@ class ProductCard extends StatelessWidget {
           children: [
             // Product Image with Hero Animation
             Expanded(
+              flex: 3,
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(16),
@@ -63,32 +66,82 @@ class ProductCard extends StatelessWidget {
             ),
 
             // Product Details
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Product Name
-                  Text(
-                    product.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? AppColors.darkText : AppColors.textPrimary,
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Product Name
+                    Text(
+                      product.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDark
+                            ? AppColors.darkText
+                            : AppColors.textPrimary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
+                    const SizedBox(height: 4),
 
-                  // Price
-                  Text(
-                    '\$${product.price.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.productPrice,
+                    // Product Description
+                    Expanded(
+                      child: Text(
+                        product.description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
+                          height: 1.3,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 8),
+
+                    // Rating and Price Row
+                    Row(
+                      children: [
+                        // Rating
+                        if (product.rating > 0) ...[
+                          Icon(
+                            Icons.star,
+                            size: 14,
+                            color: AppColors.ratingYellow,
+                          ),
+                          const SizedBox(width: 2),
+                          Text(
+                            product.rating.toStringAsFixed(1),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary,
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
+
+                        // Price
+                        Text(
+                          '\$${product.price.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.productPrice,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

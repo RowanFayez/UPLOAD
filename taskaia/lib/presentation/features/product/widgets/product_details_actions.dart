@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_strings.dart';
 import '../../../../data/models/product.dart';
 
 class ProductDetailsActions extends StatelessWidget {
@@ -18,7 +19,7 @@ class ProductDetailsActions extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Price',
+                AppStrings.price, // Changed from hardcoded 'Price'
                 style: TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).brightness == Brightness.dark
@@ -45,16 +46,15 @@ class ProductDetailsActions extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               disabledBackgroundColor: AppColors.textLight,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
-                vertical: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
             child: Text(
-              product.isAvailable ? 'Add to Cart' : 'Out of Stock',
+              product.isAvailable
+                  ? AppStrings.addToCart
+                  : AppStrings.outOfStock, // Changed from hardcoded strings
               style: const TextStyle(
                 color: AppColors.textOnPrimary,
                 fontSize: 16,
@@ -70,12 +70,12 @@ class ProductDetailsActions extends StatelessWidget {
   void _addToCart(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${product.name} added to cart!'),
+        content: Text(
+          '${product.name} ${AppStrings.addedToCart}',
+        ), // Changed from hardcoded string
         backgroundColor: AppColors.successGreen,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }

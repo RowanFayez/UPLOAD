@@ -30,7 +30,21 @@ class AppStrings {
   // Home Screen
   static const String homeTitle = 'Home';
   static const String homeWelcome = 'Welcome to Alexandria Tram Guide';
+  static const String discoverProducts = 'Discover products';
   static const String logout = 'Log Out';
+
+  // Product Screen
+  static const String price = 'Price';
+  static const String addToCart = 'Add to Cart';
+  static const String outOfStock = 'Out of Stock';
+  static const String reviews = 'reviews';
+  static const String addedToCart = 'added to cart!';
+  static const String imageNotSupported = 'Image not supported';
+
+  // Categories
+  static const String sofas = 'Sofas';
+  static const String chairs = 'Chairs';
+  static const String tables = 'Tables';
 
   // New strings for alerts and messages
   static const String welcomeToFamily = 'Welcome to the family! 🎉';
@@ -44,4 +58,26 @@ class AppStrings {
       'Are you sure you want to log out? You will need to sign in again to access your account.';
   static const String cancel = 'Cancel';
   static const String confirmLogout = 'Log Out';
+
+  // Error Messages
+  static const String loginError = 'Login failed. Please try again.';
+  static const String signupError = 'Sign up failed. Please try again.';
+  static const String networkError =
+      'Network error. Please check your connection.';
+  static const String unknownError = 'An unknown error occurred.';
+
+  // Loading States
+  static const String loading = 'Loading...';
+  static const String pleaseWait = 'Please wait';
+
+  // Navigation
+  static const String back = 'Back';
+  static const String next = 'Next';
+  static const String done = 'Done';
+  static const String save = 'Save';
+
+  // Accessibility
+  static const String backButton = 'Back button';
+  static const String themeToggle = 'Toggle theme';
+  static const String logoutButton = 'Logout button';
 }

@@ -48,17 +48,19 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const HomeHeader(),
-          const CategorySection(categoryName: 'Sofas'),
+          const CategorySection(
+            categoryName: AppStrings.sofas,
+          ), // Using AppStrings
           const SizedBox(height: 20),
           ProductsGrid(
             products: sofas,
             onProductTap: (product) {
-              Navigator.push(
+              // Enhanced transition for product details
+              AppRoutes.navigateWithTransition(
                 context,
-                PageTransitions.slideTransition(
-                  ProductDetailsScreen(product: product),
-                  duration: const Duration(milliseconds: 500),
-                ),
+                ProductDetailsScreen(product: product),
+                transition: TransitionType.slideFromRight,
+                duration: const Duration(milliseconds: 500),
               );
             },
           ),
@@ -77,10 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
       confirmColor: AppColors.warningRed,
       onConfirm: () {
         Navigator.of(context).pop();
-        Navigator.pushNamedAndRemoveUntil(
+        // Enhanced navigation back to login
+        AppRoutes.navigateToLogin(
           context,
-          AppRoutes.login,
-          (route) => false,
+          clearStack: true,
+          transition: TransitionType.slideFromLeft,
         );
       },
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_strings.dart';
 
 class AppBottomSheet {
   static void showConfirmationSheet(
@@ -101,7 +102,7 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: AppColors.handleBar, // Changed from Colors.grey[300]
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -140,7 +141,7 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
               widget.message,
               style: const TextStyle(
                 fontSize: 16,
-                color: Colors.black87,
+                color: AppColors.textSecondary, // Changed from Colors.black87
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
@@ -156,7 +157,9 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
                     child: OutlinedButton(
                       onPressed: widget.onCancel,
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.grey),
+                        side: const BorderSide(
+                          color: AppColors.greyMedium,
+                        ), // Changed from Colors.grey
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -164,7 +167,8 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
                       child: Text(
                         widget.cancelText,
                         style: const TextStyle(
-                          color: Colors.black87,
+                          color: AppColors
+                              .textSecondary, // Changed from Colors.black87
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
