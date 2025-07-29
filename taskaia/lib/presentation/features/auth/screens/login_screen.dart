@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/managers/app_dialog.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/core/theme/app_dimensions.dart';
 import 'package:taskaia/core/routing/app_routes.dart';
+import 'package:taskaia/core/widgets/responsive_wrapper.dart';
+import 'package:taskaia/core/utils/responsive_utils.dart';
 import 'package:taskaia/presentation/features/home/view/home_screen.dart';
 import '../widgets/login_form.dart';
 
@@ -27,33 +30,64 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ResponsiveScaffold(
+      useSafeArea: true,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 AppStrings.welcomeBack,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontHeading,
+                  ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const SizedBox(height: 8),
-              const Text(AppStrings.signInToPlan),
-              const SizedBox(height: 32),
+              SizedBox(height: AppDimensions.spacing8),
+              Text(
+                AppStrings.signInToPlan,
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontLarge,
+                  ),
+                ),
+              ),
+              SizedBox(height: AppDimensions.spacing32),
               const LoginForm(),
-              const SizedBox(height: 24),
+              SizedBox(height: AppDimensions.spacing24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(AppStrings.dontHaveAccount),
+                  Text(
+                    AppStrings.dontHaveAccount,
+                    style: TextStyle(
+                      fontSize: ResponsiveUtils.getResponsiveFontSize(
+                        context,
+                        AppDimensions.fontMedium,
+                      ),
+                    ),
+                  ),
                   TextButton(
                     onPressed: () => _showSignupInstructions(context),
-                    child: const Text(AppStrings.createOne),
+                    child: Text(
+                      AppStrings.createOne,
+                      style: TextStyle(
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(
+                          context,
+                          AppDimensions.fontMedium,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppDimensions.spacing16),
               Center(
                 child: TextButton(
                   onPressed: () {
@@ -62,10 +96,18 @@ class LoginScreen extends StatelessWidget {
                       context,
                       const HomeScreen(),
                       transition: TransitionType.fade,
-                      duration: const Duration(milliseconds: 500),
+                      duration: Duration(milliseconds: AppDimensions.animationExtraSlow),
                     );
                   },
-                  child: const Text(AppStrings.exploreAsGuest),
+                  child: Text(
+                    AppStrings.exploreAsGuest,
+                    style: TextStyle(
+                      fontSize: ResponsiveUtils.getResponsiveFontSize(
+                        context,
+                        AppDimensions.fontMedium,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

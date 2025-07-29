@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/managers/app_toast.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/core/theme/app_dimensions.dart';
 import 'package:taskaia/core/routing/app_routes.dart';
-import '../../../../../core/widgets/app_text_field.dart';
-import '../../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../core/widgets/custom_button.dart';
+import '../../../../core/utils/responsive_utils.dart';
 import '../controller/auth_controller.dart';
 
 class LoginForm extends StatefulWidget {
@@ -81,50 +83,30 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
+          CustomTextField(
             controller: _emailController,
-            decoration: const InputDecoration(labelText: AppStrings.email),
+            label: AppStrings.email,
+            hint: 'Enter your email',
             keyboardType: TextInputType.emailAddress,
             validator: (value) =>
                 value!.isEmpty ? AppStrings.emailRequired : null,
           ),
-          const SizedBox(height: 16),
-          TextFormField(
+          SizedBox(height: AppDimensions.spacing16),
+          CustomTextField(
             controller: _passwordController,
             obscureText: _obscurePassword,
-            decoration: InputDecoration(
-              labelText: AppStrings.password,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
-              ),
-            ),
+            label: AppStrings.password,
+            hint: 'Enter your password',
             validator: (value) =>
                 value!.isEmpty ? AppStrings.passwordRequired : null,
           ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _handleLogin,
-              child: _isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : const Text(AppStrings.login),
-            ),
+          SizedBox(height: AppDimensions.spacing24),
+          CustomButton(
+            text: AppStrings.login,
+            onPressed: _handleLogin,
+            isLoading: _isLoading,
+            isFullWidth: true,
+            size: ButtonSize.large,
           ),
         ],
       ),

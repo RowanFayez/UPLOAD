@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 
 class CategorySection extends StatelessWidget {
   final String categoryName;
@@ -12,11 +14,14 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: AppDimensions.spacing20),
       child: Text(
         categoryName,
-        style: const TextStyle(
-          fontSize: 18,
+        style: TextStyle(
+          fontSize: ResponsiveUtils.getResponsiveFontSize(
+            context,
+            AppDimensions.fontXLarge,
+          ),
           fontWeight: FontWeight.w600,
           color: AppColors.primary,
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_strings.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -10,12 +12,14 @@ class HomeHeader extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(AppDimensions.spacing20),
       child: Text(
-        AppStrings
-            .discoverProducts, // Changed from hardcoded 'Discover products'
+        AppStrings.discoverProducts,
         style: TextStyle(
-          fontSize: 28,
+          fontSize: ResponsiveUtils.getResponsiveFontSize(
+            context,
+            AppDimensions.fontDisplay,
+          ),
           fontWeight: FontWeight.bold,
           color: isDark ? AppColors.darkText : AppColors.black,
         ),

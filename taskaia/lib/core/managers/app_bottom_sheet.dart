@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
-import '../theme/app_strings.dart';
+import '../theme/app_dimensions.dart';
+import '../utils/responsive_utils.dart';
 
 class AppBottomSheet {
   static void showConfirmationSheet(
@@ -89,29 +90,29 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
         decoration: const BoxDecoration(
           color: AppColors.bottomSheetBackground,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            topLeft: Radius.circular(AppDimensions.radiusXLarge),
+            topRight: Radius.circular(AppDimensions.radiusXLarge),
           ),
         ),
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppDimensions.paddingLarge),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Handle bar
             Container(
-              width: 40,
-              height: 4,
+              width: AppDimensions.bottomSheetHandleWidth,
+              height: AppDimensions.bottomSheetHandleHeight,
               decoration: BoxDecoration(
-                color: AppColors.handleBar, // Changed from Colors.grey[300]
-                borderRadius: BorderRadius.circular(2),
+                color: AppColors.handleBar,
+                borderRadius: BorderRadius.circular(AppDimensions.radiusSmall / 4),
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: AppDimensions.spacing24),
 
             // Warning icon
             Container(
-              width: 60,
-              height: 60,
+              width: AppDimensions.dialogIconSize,
+              height: AppDimensions.dialogIconSize,
               decoration: BoxDecoration(
                 color: widget.confirmColor.withOpacity(0.1),
                 shape: BoxShape.circle,
@@ -119,41 +120,47 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
               child: Icon(
                 Icons.warning_outlined,
                 color: widget.confirmColor,
-                size: 30,
+                size: AppDimensions.iconLarge,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppDimensions.spacing16),
 
             // Title
             Text(
               widget.title,
-              style: const TextStyle(
-                fontSize: 20,
+              style: TextStyle(
+                fontSize: ResponsiveUtils.getResponsiveFontSize(
+                  context,
+                  AppDimensions.fontXXLarge,
+                ),
                 fontWeight: FontWeight.bold,
                 color: AppColors.black,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: AppDimensions.spacing8),
 
             // Message
             Text(
               widget.message,
-              style: const TextStyle(
-                fontSize: 16,
-                color: AppColors.textSecondary, // Changed from Colors.black87
+              style: TextStyle(
+                fontSize: ResponsiveUtils.getResponsiveFontSize(
+                  context,
+                  AppDimensions.fontLarge,
+                ),
+                color: AppColors.textSecondary,
                 height: 1.4,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: AppDimensions.spacing32),
 
             // Buttons
             Row(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 48,
+                    height: ResponsiveUtils.getButtonHeight(context),
                     child: OutlinedButton(
                       onPressed: widget.onCancel,
                       style: OutlinedButton.styleFrom(
@@ -161,38 +168,43 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
                           color: AppColors.greyMedium,
                         ), // Changed from Colors.grey
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                         ),
                       ),
                       child: Text(
                         widget.cancelText,
-                        style: const TextStyle(
-                          color: AppColors
-                              .textSecondary, // Changed from Colors.black87
-                          fontSize: 16,
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(
+                            context,
+                            AppDimensions.fontLarge,
+                          ),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: AppDimensions.spacing16),
                 Expanded(
                   child: SizedBox(
-                    height: 48,
+                    height: ResponsiveUtils.getButtonHeight(context),
                     child: ElevatedButton(
                       onPressed: widget.onConfirm,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: widget.confirmColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                         ),
                       ),
                       child: Text(
                         widget.confirmText,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textOnPrimary,
-                          fontSize: 16,
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(
+                            context,
+                            AppDimensions.fontLarge,
+                          ),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -203,7 +215,7 @@ class _ConfirmationBottomSheetState extends State<_ConfirmationBottomSheet>
             ),
 
             // Safe area bottom padding
-            SizedBox(height: MediaQuery.of(context).padding.bottom),
+            SizedBox(height: ResponsiveUtils.getSafeAreaPadding(context).bottom),
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
+import '../utils/responsive_utils.dart';
 
 class AppToast {
   static void showSuccess(
@@ -86,9 +88,9 @@ class _ToastWidgetState extends State<_ToastWidget>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: MediaQuery.of(context).padding.top + 16,
-      left: 16,
-      right: 16,
+      top: ResponsiveUtils.getSafeAreaPadding(context).top + AppDimensions.spacing16,
+      left: AppDimensions.spacing16,
+      right: AppDimensions.spacing16,
       child: SlideTransition(
         position: _slideAnimation,
         child: FadeTransition(
@@ -96,22 +98,26 @@ class _ToastWidgetState extends State<_ToastWidget>
           child: Material(
             color: Colors.transparent,
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppDimensions.paddingMedium),
               decoration: BoxDecoration(
                 color: AppColors.toastBackground,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    blurRadius: AppDimensions.blurRadiusSmall,
+                    offset: Offset(0, AppDimensions.elevationLow),
                   ),
                 ],
               ),
               child: Row(
                 children: [
-                  Icon(widget.icon, color: widget.color, size: 24),
-                  const SizedBox(width: 12),
+                  Icon(
+                    widget.icon, 
+                    color: widget.color, 
+                    size: AppDimensions.toastIconSize,
+                  ),
+                  SizedBox(width: AppDimensions.spacing12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,21 +125,27 @@ class _ToastWidgetState extends State<_ToastWidget>
                       children: [
                         Text(
                           widget.message,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.white,
-                            fontSize: 16,
+                            fontSize: ResponsiveUtils.getResponsiveFontSize(
+                              context,
+                              AppDimensions.fontLarge,
+                            ),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         if (widget.subtitle != null) ...[
-                          const SizedBox(height: 4),
+                          SizedBox(height: AppDimensions.spacing4),
                           Opacity(
                             opacity: 0.8,
                             child: Text(
                               widget.subtitle!,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.textOnPrimary,
-                                fontSize: 14,
+                                fontSize: ResponsiveUtils.getResponsiveFontSize(
+                                  context,
+                                  AppDimensions.fontMedium,
+                                ),
                               ),
                             ),
                           ),
@@ -146,7 +158,7 @@ class _ToastWidgetState extends State<_ToastWidget>
                     child: const Icon(
                       Icons.close,
                       color: AppColors.textOnPrimary,
-                      size: 20,
+                      size: AppDimensions.iconSmall,
                     ),
                   ),
                 ],

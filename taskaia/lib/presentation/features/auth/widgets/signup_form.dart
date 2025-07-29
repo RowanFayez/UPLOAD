@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
-import '../../../../../core/widgets/app_text_field.dart';
-import '../../../../../core/widgets/app_button.dart';
+import 'package:taskaia/core/theme/app_dimensions.dart';
+import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../core/widgets/custom_button.dart';
 import '../controller/auth_controller.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -21,50 +22,46 @@ class _SignUpFormState extends State<SignUpForm> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
-            decoration: const InputDecoration(labelText: AppStrings.name),
+          CustomTextField(
+            label: AppStrings.name,
+            hint: 'Enter your full name',
             validator: (value) =>
                 value!.isEmpty ? AppStrings.nameRequired : null,
           ),
-          const SizedBox(height: 16),
-          TextFormField(
-            decoration: const InputDecoration(labelText: AppStrings.email),
+          SizedBox(height: AppDimensions.spacing16),
+          CustomTextField(
+            label: AppStrings.email,
+            hint: 'Enter your email',
+            keyboardType: TextInputType.emailAddress,
             validator: (value) =>
                 value!.isEmpty ? AppStrings.emailRequired : null,
           ),
-          const SizedBox(height: 16),
-          TextFormField(
-            decoration: const InputDecoration(labelText: AppStrings.phone),
+          SizedBox(height: AppDimensions.spacing16),
+          CustomTextField(
+            label: AppStrings.phone,
+            hint: 'Enter your phone number',
+            keyboardType: TextInputType.phone,
             validator: (value) =>
                 value!.isEmpty ? AppStrings.phoneRequired : null,
           ),
-          const SizedBox(height: 16),
-          TextFormField(
+          SizedBox(height: AppDimensions.spacing16),
+          CustomTextField(
             obscureText: _obscurePassword,
-            decoration: InputDecoration(
-              labelText: AppStrings.password,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
-              ),
-            ),
+            label: AppStrings.password,
+            hint: 'Enter your password',
             validator: (value) =>
                 value!.isEmpty ? AppStrings.passwordRequired : null,
           ),
-          const SizedBox(height: 24),
-          ElevatedButton(
+          SizedBox(height: AppDimensions.spacing24),
+          CustomButton(
+            text: AppStrings.signUp,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 Navigator.pop(context);
               }
             },
-            child: const Text(AppStrings.signUp),
+            isFullWidth: true,
+            size: ButtonSize.large,
           ),
         ],
       ),

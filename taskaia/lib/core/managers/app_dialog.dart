@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
+import '../utils/responsive_utils.dart';
 
 class AppDialog {
   static void showInstructionDialog(
@@ -82,15 +84,15 @@ class _InstructionDialogState extends State<_InstructionDialog>
         child: AlertDialog(
           backgroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
           ),
-          contentPadding: const EdgeInsets.all(24),
+          contentPadding: EdgeInsets.all(AppDimensions.paddingLarge),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 60,
-                height: 60,
+                width: AppDimensions.dialogIconSize,
+                height: AppDimensions.dialogIconSize,
                 decoration: BoxDecoration(
                   color: AppColors.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
@@ -98,46 +100,55 @@ class _InstructionDialogState extends State<_InstructionDialog>
                 child: const Icon(
                   Icons.info_outline,
                   color: AppColors.primary,
-                  size: 30,
+                  size: AppDimensions.iconLarge,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppDimensions.spacing16),
               Text(
                 widget.title,
-                style: const TextStyle(
-                  fontSize: 20,
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontXXLarge,
+                  ),
                   fontWeight: FontWeight.bold,
                   color: AppColors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppDimensions.spacing12),
               Text(
                 widget.content,
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontLarge,
+                  ),
                   color: Colors.black87,
                   height: 1.4,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: AppDimensions.spacing24),
               SizedBox(
                 width: double.infinity,
-                height: 48,
+                height: ResponsiveUtils.getButtonHeight(context),
                 child: ElevatedButton(
                   onPressed: widget.onPressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
                     ),
                   ),
                   child: Text(
                     widget.buttonText,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textOnPrimary,
-                      fontSize: 16,
+                      fontSize: ResponsiveUtils.getResponsiveFontSize(
+                        context,
+                        AppDimensions.fontLarge,
+                      ),
                       fontWeight: FontWeight.w600,
                     ),
                   ),

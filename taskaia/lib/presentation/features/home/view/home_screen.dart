@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../../../core/animation/page_transitions.dart';
 import 'package:taskaia/core/managers/app_bottom_sheet.dart';
 import 'package:taskaia/core/routing/app_routes.dart';
 import 'package:taskaia/core/theme/theme_manager.dart';
+import 'package:taskaia/core/theme/app_dimensions.dart';
+import 'package:taskaia/core/widgets/responsive_wrapper.dart';
+import 'package:taskaia/core/utils/responsive_utils.dart';
 import 'package:taskaia/data/datasources/product_data_source.dart';
 import 'package:taskaia/presentation/features/product/screens/product_details_screen.dart';
 import '../../../../core/theme/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../widgets/home_header.dart';
 import '../widgets/category_section.dart';
-import '../widgets/products_grid.dart';
+import '../widgets/responsive_products_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,9 +27,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final sofas = ProductDataSource.getSofas();
 
-    return Scaffold(
+    return ResponsiveScaffold(
+      useSafeArea: true,
       appBar: AppBar(
-        leading: const Icon(Icons.menu, size: 24),
+        leading: Icon(
+          Icons.menu, 
+          size: ResponsiveUtils.getResponsiveIconSize(
+            context, 
+            AppDimensions.iconMedium,
+          ),
+        ),
         actions: [
           Switch(
             value: _themeManager.isDarkMode,
@@ -50,9 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
           const HomeHeader(),
           const CategorySection(
             categoryName: AppStrings.sofas,
-          ), // Using AppStrings
-          const SizedBox(height: 20),
-          ProductsGrid(
+          ),
+          SizedBox(height: AppDimensions.spacing20),
+          ResponsiveProductsGrid(
             products: sofas,
             onProductTap: (product) {
               // Enhanced transition for product details
@@ -60,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 ProductDetailsScreen(product: product),
                 transition: TransitionType.slideFromRight,
-                duration: const Duration(milliseconds: 500),
+                duration: Duration(milliseconds: AppDimensions.animationExtraSlow),
               );
             },
           ),
