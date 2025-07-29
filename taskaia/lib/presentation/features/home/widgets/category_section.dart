@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_strings.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/utils/responsive_utils.dart';
 
-class CategorySection extends StatelessWidget {
-  final String categoryName;
-
-  const CategorySection({
-    super.key,
-    required this.categoryName,
-  });
+class HomeHeader extends StatelessWidget {
+  const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppDimensions.spacing20),
+      padding: EdgeInsets.all(AppDimensions.spacing20),
       child: Text(
-        categoryName,
+        AppStrings.discoverProducts,
         style: TextStyle(
           fontSize: ResponsiveUtils.getResponsiveFontSize(
             context,
-            AppDimensions.fontXLarge,
+            AppDimensions.fontDisplay,
           ),
-          fontWeight: FontWeight.w600,
-          color: AppColors.primary,
+          fontWeight: FontWeight.bold,
+          color: isDark ? AppColors.darkText : AppColors.black,
         ),
       ),
     );
