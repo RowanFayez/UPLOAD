@@ -1,6 +1,8 @@
-# UPLOAD
+# UPLOAD system design
 taskaia/
+
 ├── lib/
+
 │   ├── core/                           
 │   │   ├── animation/                 
 │   │   │   ├── page_transitions.dart   
@@ -20,13 +22,17 @@ taskaia/
 │   │       ├── safe_area_wrapper.dart  
 │   │       └── index.dart             
 │   │
+
 │   ├── data/                           
 │   │   └── models/
 │   │       └── product.dart             
 │   │
-│   └── presentation/                   
+
+│   └── presentation/    
+
 │       └── features/                   
-│           └── product/                
+│           └── product/ 
+
 │               ├── screens/            
 │               │   └── product_details_screen.dart
 │               └── widgets/            
