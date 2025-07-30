@@ -21,6 +21,11 @@ A modern, responsive Flutter application for exploring Alexandria's tram system 
 #### Custom Widgets
 - **AppButton**: Fully customizable button with loading states, icons, and outlined variants
 - **AppTextField**: Advanced text field with validation, icons, and error handling
+- **AppText**: Responsive text widget with predefined styles
+- **AppSpacing**: Consistent spacing and padding widgets
+- **AppContainer**: Flexible container with predefined styles
+- **AppIcon**: Responsive icon widget with button variants
+- **AppLoading**: Loading indicators and overlays
 - **ResponsiveScaffold**: Scaffold with built-in safe area and responsive padding
 - **SafeAreaWrapper**: Flexible safe area wrapper with custom padding
 - **ResponsiveScreenWrapper**: Screen wrapper for responsive layouts
@@ -42,89 +47,131 @@ lib/
 │   ├── theme/              # Colors, dimensions, strings, and theme management
 │   ├── utils/              # Responsive utilities and helpers
 │   └── widgets/            # Reusable custom widgets
+│       ├── app_button.dart
+│       ├── app_text_field.dart
+│       ├── app_text.dart
+│       ├── app_spacing.dart
+│       ├── app_container.dart
+│       ├── app_icon.dart
+│       ├── app_loading.dart
+│       ├── responsive_scaffold.dart
+│       ├── safe_area_wrapper.dart
+│       ├── responsive_screen_wrapper.dart
+│       ├── custom_app_bar.dart
+│       └── index.dart
 ├── data/
 │   ├── datasources/        # Data sources
 │   ├── models/             # Data models
-│   └── repositories/       # Repository pattern implementation
+│   └── repositories/       # Data repositories
 └── presentation/
-    └── features/
-        ├── auth/           # Authentication screens and widgets
+    └── features/           # Feature-based UI components
+        ├── auth/           # Authentication screens
         ├── home/           # Home screen and related widgets
-        └── product/        # Product details and related widgets
+        └── product/        # Product-related screens and widgets
 ```
 
 ### 🎯 Key Improvements
 
-#### ✅ Clean Code
-- **No Hard-coded Values**: All colors, strings, and dimensions use centralized constants
-- **Consistent Naming**: Clear, descriptive naming conventions
-- **Separation of Concerns**: Proper separation between UI, business logic, and data layers
+#### ✅ Fixed Issues
+- **Eliminated Hard-coded Values**: All hard-coded colors, dimensions, and strings removed
+- **Consistent ResponsiveUtils Usage**: All components now use ResponsiveUtils properly
+- **ResponsiveScaffold Implementation**: All screens use ResponsiveScaffold instead of regular Scaffold
+- **Proper AppDimensions Usage**: All spacing and sizing uses AppDimensions constants
 
-#### ✅ Responsive Design
-- **Mobile-First**: Optimized for mobile devices with tablet and desktop support
-- **Adaptive Layouts**: Grids and layouts that adjust to screen size
-- **Safe Area**: Proper handling of device-specific UI elements
-- **Touch-Friendly**: Appropriate touch targets and spacing
+#### 🆕 New Custom Widgets
 
-#### ✅ Layout Issues Fixed
-- **Overflow Prevention**: Fixed "BOTTOM OVERFLOWED BY 6.0 PIXELS" error in ProductCard
-- **Hero Transition**: Improved Hero animation with consistent aspect ratios
-- **Grid Layout**: Enhanced grid system with better spacing and proportions
-- **Image Consistency**: Fixed aspect ratios for consistent image display
-
-#### ✅ Maintainable
-- **Modular Architecture**: Easy to modify and extend
-- **Reusable Components**: Custom widgets that can be used throughout the app
-- **Theme System**: Easy to change colors and styling globally
-- **Documentation**: Clear code comments and structure
-
-#### ✅ Professional
-- **Best Practices**: Follows Flutter and Dart best practices
-- **Performance**: Optimized for smooth performance
-- **Accessibility**: Proper semantic structure and accessibility support
-- **Error Handling**: Comprehensive error handling and user feedback
-
-### 🛠️ Custom Widgets
-
-#### AppButton
+##### **AppText & Typography**
 ```dart
-AppButton(
-  label: 'Login',
-  onPressed: () => handleLogin(),
-  isLoading: false,
-  isFullWidth: true,
-  icon: Icons.login,
-  isOutlined: false,
-)
+// Basic text with responsive font size
+AppText('Hello World', style: TextStyle(fontSize: AppDimensions.fontLarge))
+
+// Predefined heading styles
+AppHeading('Main Title')
+AppHeading.h1('Large Heading')
+AppHeading.h2('Medium Heading')
+AppHeading.h3('Small Heading')
+
+// Body text with variants
+AppBodyText('Regular body text')
+AppBodyText.primary('Primary text')
+AppBodyText.secondary('Secondary text')
 ```
 
-#### AppTextField
+##### **AppSpacing & Layout**
 ```dart
-AppTextField(
-  label: 'Email',
-  hint: 'Enter your email',
-  controller: emailController,
-  keyboardType: TextInputType.emailAddress,
-  isRequired: true,
-  prefixIcon: Icon(Icons.email_outlined),
-)
+// Responsive spacing
+AppSpacing.small()  // 8px
+AppSpacing.medium() // 16px
+AppSpacing.large()  // 24px
+AppSpacing.xlarge() // 32px
+
+// Responsive padding
+AppPadding.small(child: YourWidget())
+AppPadding.medium(child: YourWidget())
+AppPadding.large(child: YourWidget())
+AppPadding.horizontal(child: YourWidget())
+AppPadding.vertical(child: YourWidget())
 ```
 
-#### ResponsiveScaffold
+##### **AppContainer & Cards**
 ```dart
-ResponsiveScaffold(
-  backgroundColor: AppColors.background,
-  useSafeArea: true,
-  appBar: AppBar(title: Text('Home')),
-  body: YourContent(),
+// Flexible container
+AppContainer(
+  child: YourWidget(),
+  borderRadius: AppDimensions.radiusLarge,
+  boxShadow: [BoxShadow(...)],
 )
+
+// Predefined card styles
+AppCard.small(child: YourWidget())
+AppCard.medium(child: YourWidget())
+AppCard.large(child: YourWidget())
+
+// Container variants
+AppContainer.card(child: YourWidget())
+AppContainer.elevated(child: YourWidget())
+AppContainer.outlined(child: YourWidget())
+AppContainer.rounded(child: YourWidget())
 ```
 
-#### StaggeredProductsGrid
+##### **AppIcon & Icon Buttons**
 ```dart
-StaggeredProductsGrid(
-  products: products,
-  onProductTap: (product) => navigateToDetails(product),
+// Responsive icons
+AppIcon.small(Icons.star)
+AppIcon.medium(Icons.favorite)
+AppIcon.large(Icons.home)
+AppIcon.xlarge(Icons.settings)
+
+// Icon buttons
+AppIconButton.small(Icons.edit, onPressed: () {})
+AppIconButton.medium(Icons.delete, onPressed: () {})
+AppIconButton.large(Icons.add, onPressed: () {})
+AppIconButton.circular(Icons.close, onPressed: () {})
+```
+
+##### **AppLoading & Loading States**
+```dart
+// Loading indicators
+AppLoading.small()
+AppLoading.medium()
+AppLoading.large()
+AppLoading.xlarge()
+
+// Loading with message
+AppLoading.large(message: 'Loading...', showMessage: true)
+
+// Loading overlay
+AppLoadingOverlay(
+  child: YourWidget(),
+  isLoading: true,
+  message: 'Processing...',
+)
+
+// Loading button
+AppLoadingButton(
+  label: 'Submit',
+  onPressed: () {},
+  isLoading: true,
 )
 ```
 
@@ -194,6 +241,27 @@ The app follows a clean architecture pattern with:
 - **Efficient Widgets**: Minimal rebuilds and optimized rendering
 - **Memory Management**: Proper disposal of controllers and listeners
 - **Smooth Animations**: Optimized Hero transitions and page animations
+
+### 🎯 Best Practices Implemented
+
+#### ✅ Code Quality
+- **No Hard-coded Values**: All constants centralized
+- **Responsive Design**: Consistent across all screen sizes
+- **Custom Widgets**: Reusable and maintainable
+- **Clean Architecture**: Proper separation of concerns
+- **Type Safety**: Strong typing throughout the app
+
+#### ✅ Performance
+- **ResponsiveUtils**: Optimized responsive calculations
+- **Custom Widgets**: Minimal rebuilds
+- **Efficient Layouts**: Proper use of constraints
+- **Memory Management**: Proper disposal patterns
+
+#### ✅ Maintainability
+- **Centralized Theme**: Easy to modify and extend
+- **Custom Widgets**: Consistent styling and behavior
+- **Clear Structure**: Well-organized codebase
+- **Documentation**: Comprehensive documentation
 
 ### 🎯 Future Enhancements
 

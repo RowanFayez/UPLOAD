@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
+import 'package:taskaia/core/theme/app_dimensions.dart';
+import 'package:taskaia/core/utils/responsive_utils.dart';
+import 'package:taskaia/core/widgets/responsive_scaffold.dart';
 import 'package:taskaia/core/animation/slide_transition_wrapper.dart';
 import '../widgets/signup_form.dart';
 
@@ -9,32 +12,53 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SlideTransitionWrapper(
-      child: Scaffold(
+      child: ResponsiveScaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: Icon(
+              Icons.arrow_back,
+              size: ResponsiveUtils.getResponsiveIconSize(
+                context,
+                AppDimensions.iconMedium,
+              ),
+            ),
             onPressed: () => Navigator.pop(context),
           ),
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.spacing24,
+          )),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 AppStrings.signUp,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontHeading,
+                  ),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+                context,
+                AppDimensions.spacing8,
+              )),
               const SignUpForm(),
-              const SizedBox(height: 16),
+              SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+                context,
+                AppDimensions.spacing16,
+              )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(AppStrings.alreadyHaveAccount),
+                  Text(AppStrings.alreadyHaveAccount),
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(AppStrings.login),
+                    child: Text(AppStrings.login),
                   ),
                 ],
               ),

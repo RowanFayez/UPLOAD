@@ -49,7 +49,7 @@ class ProductCard extends StatelessWidget {
                     child: Image.asset(
                       product.imageUrl,
                       fit: BoxFit
-                          .cover, // This ensures the image covers the area properly
+                          .cover, 
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: AppColors.productImagePlaceholder,
                         child: Icon(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 import '../../../../data/models/product.dart';
 import 'product_rating_widget.dart';
 
@@ -13,23 +15,35 @@ class ProductDetailsContent extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(ResponsiveUtils.getResponsiveSpacing(
+        context,
+        AppDimensions.spacing24,
+      )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.spacing20,
+          )),
 
           // Product Name
           Text(
             product.name,
             style: TextStyle(
-              fontSize: 28,
+              fontSize: ResponsiveUtils.getResponsiveFontSize(
+                context,
+                AppDimensions.fontDisplay,
+              ),
               fontWeight: FontWeight.bold,
               color: isDark ? AppColors.darkText : AppColors.textPrimary,
             ),
           ),
 
-          const SizedBox(height: 12),
+          SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.spacing12,
+          )),
 
           // Rating and Reviews
           ProductRatingWidget(
@@ -37,7 +51,10 @@ class ProductDetailsContent extends StatelessWidget {
             reviewCount: product.reviewCount,
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.spacing16,
+          )),
 
           // Product Description - Fixed: No Scroll, Auto-fit Text
           Expanded(
@@ -50,18 +67,27 @@ class ProductDetailsContent extends StatelessWidget {
                     Text(
                       'Description:', // Optional header
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(
+                          context,
+                          AppDimensions.fontXLarge,
+                        ),
                         fontWeight: FontWeight.w600,
                         color:
                             isDark ? AppColors.darkText : AppColors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+                      context,
+                      AppDimensions.spacing8,
+                    )),
                     Expanded(
                       child: Text(
                         product.description,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(
+                            context,
+                            AppDimensions.fontLarge,
+                          ),
                           height: 1.5, // Better line spacing
                           color: isDark
                               ? AppColors.darkTextSecondary
@@ -78,7 +104,10 @@ class ProductDetailsContent extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.spacing20,
+          )),
         ],
       ),
     );

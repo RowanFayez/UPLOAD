@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_strings.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 import '../../../../data/models/product.dart';
 
 class ProductDetailsActions extends StatelessWidget {
@@ -11,7 +13,10 @@ class ProductDetailsActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(ResponsiveUtils.getResponsiveSpacing(
+        context,
+        AppDimensions.spacing24,
+      )),
       child: Row(
         children: [
           // Price Section
@@ -21,7 +26,10 @@ class ProductDetailsActions extends StatelessWidget {
               Text(
                 AppStrings.price, // Changed from hardcoded 'Price'
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontMedium,
+                  ),
                   color: Theme.of(context).brightness == Brightness.dark
                       ? AppColors.darkTextSecondary
                       : AppColors.textSecondary,
@@ -29,8 +37,11 @@ class ProductDetailsActions extends StatelessWidget {
               ),
               Text(
                 '\$${product.price.toStringAsFixed(2)}',
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontHeading,
+                  ),
                   fontWeight: FontWeight.bold,
                   color: AppColors.productPrice,
                 ),
@@ -46,18 +57,30 @@ class ProductDetailsActions extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               disabledBackgroundColor: AppColors.textLight,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              padding: EdgeInsets.symmetric(
+                horizontal: ResponsiveUtils.getResponsiveSpacing(
+                  context,
+                  AppDimensions.spacing32,
+                ),
+                vertical: ResponsiveUtils.getResponsiveSpacing(
+                  context,
+                  AppDimensions.spacing16,
+                ),
+              ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
               ),
             ),
             child: Text(
               product.isAvailable
                   ? AppStrings.addToCart
                   : AppStrings.outOfStock, // Changed from hardcoded strings
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textOnPrimary,
-                fontSize: 16,
+                fontSize: ResponsiveUtils.getResponsiveFontSize(
+                  context,
+                  AppDimensions.fontLarge,
+                ),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -75,7 +98,9 @@ class ProductDetailsActions extends StatelessWidget {
         ), // Changed from hardcoded string
         backgroundColor: AppColors.successGreen,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusSmall),
+        ),
       ),
     );
   }
