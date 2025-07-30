@@ -45,6 +45,16 @@ class AppColors {
   static const Color productImagePlaceholder = Color(0xFFF5F5F5);
   static const Color ratingYellow = Color(0xFFFFC107);
 
+  // Category Chip Colors
+  static const Color chipSelectedLight = Colors.black;
+  static const Color chipSelectedDark = Colors.white;
+  static const Color chipUnselectedLight = Color(0xFFE0E0E0);
+  static const Color chipUnselectedDark = Color(0xFF424242);
+  static const Color chipBorderLight = Color(0xFFBDBDBD);
+  static const Color chipBorderDark = Color(0xFF616161);
+  static const Color chipTextUnselectedLight = Color(0xDD000000);
+  static const Color chipTextUnselectedDark = Color(0xB3FFFFFF);
+
   // Dark Theme Colors
   static const Color darkBackground = Color(0xFF121212);
   static const Color darkSurface = Color(0xFF1E1E1E);

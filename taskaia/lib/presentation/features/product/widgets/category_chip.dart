@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+
 class CategoryChip extends StatelessWidget {
   final String label;
   final bool isSelected;
@@ -18,18 +21,27 @@ class CategoryChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        duration: const Duration(milliseconds: AppDimensions.animationFast),
+        margin: const EdgeInsets.only(right: AppDimensions.spacing12),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.spacing20,
+          vertical: AppDimensions.spacing10,
+        ),
         decoration: BoxDecoration(
           color: isSelected
-              ? (isDark ? Colors.white : Colors.black)
-              : (isDark ? Colors.grey[800] : Colors.grey[200]),
-          borderRadius: BorderRadius.circular(25),
+              ? (isDark
+                    ? AppColors.chipSelectedDark
+                    : AppColors.chipSelectedLight)
+              : (isDark
+                    ? AppColors.chipUnselectedDark
+                    : AppColors.chipUnselectedLight),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusCircular),
           border: isSelected
               ? null
               : Border.all(
-                  color: isDark ? Colors.grey[600]! : Colors.grey[300]!,
+                  color: isDark
+                      ? AppColors.chipBorderDark
+                      : AppColors.chipBorderLight,
                   width: 1,
                 ),
         ),
@@ -37,10 +49,14 @@ class CategoryChip extends StatelessWidget {
           label,
           style: TextStyle(
             color: isSelected
-                ? (isDark ? Colors.black : Colors.white)
-                : (isDark ? Colors.white70 : Colors.black87),
+                ? (isDark
+                      ? AppColors.chipSelectedLight
+                      : AppColors.chipSelectedDark)
+                : (isDark
+                      ? AppColors.chipTextUnselectedDark
+                      : AppColors.chipTextUnselectedLight),
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            fontSize: 14,
+            fontSize: AppDimensions.fontMedium,
           ),
         ),
       ),
