@@ -3,6 +3,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/utils/responsive_utils.dart';
 import '../../../../data/models/product.dart';
+import 'reusable_product_image.dart'; // Import the new reusable widget
 
 class ProductDetailsHeader extends StatelessWidget {
   final Product product;
@@ -15,66 +16,25 @@ class ProductDetailsHeader extends StatelessWidget {
 
     return Stack(
       children: [
-        // Product Image with Hero Animation
+        // Product Image using Reusable Widget - Fixed Overflow
         Container(
           width: double.infinity,
           height: double.infinity,
-          margin: ResponsiveUtils.getHorizontalPadding(context),
-          child: Hero(
-            tag: 'product-image-${product.id}',
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.cardShadow,
-                    blurRadius: AppDimensions.blurRadiusLarge,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
-                child: AspectRatio(
-                  aspectRatio: 1.0, // Fixed aspect ratio to match ProductCard
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.productImagePlaceholder,
-                    ),
-                    child: Image.asset(
-                      product.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: AppColors.productImagePlaceholder,
-                        child: Icon(
-                          Icons.image_not_supported,
-                          size: ResponsiveUtils.getResponsiveIconSize(
-                            context,
-                            AppDimensions.iconXXLarge,
-                          ),
-                          color: AppColors.textLight,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          padding: ResponsiveUtils.getHorizontalPadding(context),
+          child: ReusableProductImage(
+            imageUrl: product.imageUrl,
+            heroTag: 'product-image-${product.id}',
+            aspectRatio: 1.2, // Fixed aspect ratio to prevent overflow
+            borderRadius: AppDimensions.radiusLarge,
+            fit: BoxFit.cover,
+            showShadow: true,
           ),
         ),
 
         // Back Button
         Positioned(
-          top: MediaQuery.of(context).padding.top +
-              ResponsiveUtils.getResponsiveSpacing(
-                context,
-                AppDimensions.spacing8,
-              ),
-          left: ResponsiveUtils.getResponsiveSpacing(
-            context,
-            AppDimensions.spacing16,
-          ),
+          top: MediaQuery.of(context).padding.top + AppDimensions.spacing8,
+          left: AppDimensions.spacing16,
           child: Container(
             margin: const EdgeInsets.all(AppDimensions.spacing8),
             decoration: BoxDecoration(
@@ -91,10 +51,7 @@ class ProductDetailsHeader extends StatelessWidget {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                size: ResponsiveUtils.getResponsiveIconSize(
-                  context,
-                  AppDimensions.iconMedium,
-                ),
+                size: AppDimensions.iconMedium,
                 color: isDark ? AppColors.darkText : AppColors.textPrimary,
               ),
               onPressed: () => Navigator.pop(context),

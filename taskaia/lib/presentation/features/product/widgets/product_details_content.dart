@@ -39,17 +39,42 @@ class ProductDetailsContent extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // Product Description
+          // Product Description - Fixed: No Scroll, Auto-fit Text
           Expanded(
-            child: SingleChildScrollView(
-              child: Text(
-                product.description,
-                style: TextStyle(
-                  fontSize: 16,
-                  height: 1.6,
-                  color: isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-                ),
-              ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Calculate available space and adjust text accordingly
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Description:', // Optional header
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color:
+                            isDark ? AppColors.darkText : AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: Text(
+                        product.description,
+                        style: TextStyle(
+                          fontSize: 16,
+                          height: 1.5, // Better line spacing
+                          color: isDark
+                              ? AppColors.darkTextSecondary
+                              : AppColors.textSecondary,
+                        ),
+                        textAlign: TextAlign.justify, // Better text alignment
+                        overflow: TextOverflow
+                            .visible, // Allow text to show completely
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
 

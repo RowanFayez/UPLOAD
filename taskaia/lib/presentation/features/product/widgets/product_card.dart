@@ -14,12 +14,10 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardHeight = ResponsiveUtils.getCardHeight(context);
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: cardHeight,
         decoration: BoxDecoration(
           color: isDark ? AppColors.darkCard : AppColors.productBackground,
           borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
@@ -34,9 +32,9 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image with Hero Animation
+            // Product Image with Hero Animation - Fixed Aspect Ratio
             Expanded(
-              flex: 3,
+              flex: 2, // Changed from 3 to 2 to give more space for content
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(AppDimensions.radiusLarge),
@@ -47,13 +45,11 @@ class ProductCard extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: AppColors.productImagePlaceholder,
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(AppDimensions.radiusLarge),
-                      ),
                     ),
                     child: Image.asset(
                       product.imageUrl,
-                      fit: BoxFit.cover,
+                      fit: BoxFit
+                          .cover, // This ensures the image covers the area properly
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: AppColors.productImagePlaceholder,
                         child: Icon(
@@ -68,99 +64,72 @@ class ProductCard extends StatelessWidget {
               ),
             ),
 
-            // Product Details
+            // Product Details - Improved Layout
             Expanded(
-              flex: 2,
+              flex: 2, // Changed from 2 to 2 to balance with image
               child: Padding(
                 padding: const EdgeInsets.all(AppDimensions.spacing12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // Added this
                   children: [
-                    // Product Name
-                    Text(
-                      product.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: ResponsiveUtils.getResponsiveFontSize(
-                          context,
-                          AppDimensions.fontLarge,
-                        ),
-                        fontWeight: FontWeight.bold,
-                        color:
-                            isDark ? AppColors.darkText : AppColors.textPrimary,
-                      ),
-                    ),
-                    SizedBox(
-                      height: ResponsiveUtils.getResponsiveSpacing(
-                        context,
-                        AppDimensions.spacing4,
-                      ),
-                    ),
-
-                    // Product Description
-                    Expanded(
+                    // Product Name - Fixed Overflow
+                    Flexible(
                       child: Text(
-                        product.description,
-                        maxLines: 2,
+                        product.name,
+                        maxLines: 2, // Changed from 1 to 2
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: ResponsiveUtils.getResponsiveFontSize(
-                            context,
-                            AppDimensions.fontSmall,
-                          ),
+                          fontSize: AppDimensions.fontLarge,
+                          fontWeight: FontWeight.bold,
                           color: isDark
-                              ? AppColors.darkTextSecondary
-                              : AppColors.textSecondary,
-                          height: 1.3,
+                              ? AppColors.darkText
+                              : AppColors.textPrimary,
+                          height: 1.2, // Added line height
                         ),
                       ),
                     ),
 
-                    SizedBox(
-                      height: ResponsiveUtils.getResponsiveSpacing(
-                        context,
-                        AppDimensions.spacing8,
-                      ),
-                    ),
+                    const SizedBox(height: AppDimensions.spacing4),
 
-                    // Rating and Price Row
+                    // Rating and Price Row - Fixed Layout
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Rating
-                        if (product.rating > 0) ...[
-                          Icon(
-                            Icons.star,
-                            size: ResponsiveUtils.getResponsiveIconSize(
-                              context,
-                              AppDimensions.iconSmall,
+                        if (product.rating > 0)
+                          Flexible(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  size: AppDimensions.iconSmall,
+                                  color: AppColors.ratingYellow,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  product.rating.toStringAsFixed(1),
+                                  style: TextStyle(
+                                    fontSize: AppDimensions.fontSmall,
+                                    color: isDark
+                                        ? AppColors.darkTextSecondary
+                                        : AppColors.textSecondary,
+                                  ),
+                                ),
+                              ],
                             ),
-                            color: AppColors.ratingYellow,
-                          ),
-                          const SizedBox(width: 2),
-                          Text(
-                            product.rating.toStringAsFixed(1),
-                            style: TextStyle(
-                              fontSize: ResponsiveUtils.getResponsiveFontSize(
-                                context,
-                                AppDimensions.fontSmall,
-                              ),
-                              color: isDark
-                                  ? AppColors.darkTextSecondary
-                                  : AppColors.textSecondary,
-                            ),
-                          ),
-                          const Spacer(),
-                        ],
+                          )
+                        else
+                          const SizedBox(), // Empty space when no rating
 
                         // Price
                         Text(
                           '\$${product.price.toStringAsFixed(2)}',
                           style: TextStyle(
-                            fontSize: ResponsiveUtils.getResponsiveFontSize(
-                              context,
-                              AppDimensions.fontLarge,
-                            ),
+                            fontSize: AppDimensions.fontLarge,
                             fontWeight: FontWeight.w600,
                             color: AppColors.productPrice,
                           ),
