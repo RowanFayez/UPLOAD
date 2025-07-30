@@ -29,7 +29,7 @@ class AppColors {
   static const Color textLight = Color(0xFF999999);
   static const Color textOnPrimary = Colors.white;
 
-  // Grey Colors (replacing hardcoded Colors.grey)
+  // Grey Colors 
   static const Color greyLight = Color(0xFFE0E0E0);
   static const Color greyMedium = Color(0xFF9E9E9E);
   static const Color greyDark = Color(0xFF616161);
