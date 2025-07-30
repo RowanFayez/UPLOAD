@@ -7,9 +7,12 @@ import 'package:taskaia/data/datasources/product_data_source.dart';
 import 'package:taskaia/presentation/features/product/screens/product_details_screen.dart';
 import '../../../../core/theme/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
+import '../../../../core/widgets/responsive_scaffold.dart';
 import '../widgets/home_header.dart';
 import '../widgets/category_section.dart';
-import '../widgets/products_grid.dart';
+import '../widgets/staggered_products_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,10 +27,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final sofas = ProductDataSource.getSofas();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
+    return ResponsiveScaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
       appBar: AppBar(
-        leading: const Icon(Icons.menu, size: 24),
+        leading: Icon(
+          Icons.menu,
+          size: ResponsiveUtils.getResponsiveIconSize(
+            context,
+            AppDimensions.iconMedium,
+          ),
+        ),
         actions: [
           Switch(
             value: _themeManager.isDarkMode,
@@ -38,7 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
             activeColor: AppColors.primary,
           ),
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: Icon(
+              Icons.logout,
+              size: ResponsiveUtils.getResponsiveIconSize(
+                context,
+                AppDimensions.iconMedium,
+              ),
+            ),
             onPressed: _showLogoutConfirmation,
             tooltip: AppStrings.logout,
           ),
@@ -48,11 +65,14 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const HomeHeader(),
-          const CategorySection(
-            categoryName: AppStrings.sofas,
-          ), // Using AppStrings
-          const SizedBox(height: 20),
-          ProductsGrid(
+          const CategorySection(categoryName: AppStrings.sofas),
+          SizedBox(
+            height: ResponsiveUtils.getResponsiveSpacing(
+              context,
+              AppDimensions.spacing20,
+            ),
+          ),
+          StaggeredProductsGrid(
             products: sofas,
             onProductTap: (product) {
               // Enhanced transition for product details
@@ -60,7 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 ProductDetailsScreen(product: product),
                 transition: TransitionType.slideFromRight,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(
+                  milliseconds: AppDimensions.animationVerySlow,
+                ),
               );
             },
           ),

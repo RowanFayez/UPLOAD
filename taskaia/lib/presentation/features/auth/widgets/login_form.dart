@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:taskaia/core/managers/app_toast.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
 import 'package:taskaia/core/routing/app_routes.dart';
-import '../../../../../core/widgets/app_text_field.dart';
-import '../../../../../core/widgets/app_button.dart';
+import '../../../../core/widgets/app_text_field.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 import '../controller/auth_controller.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,7 +20,6 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authController = AuthController();
-  bool _obscurePassword = true;
   bool _isLoading = false;
 
   @override
@@ -49,15 +50,18 @@ class _LoginFormState extends State<LoginForm> {
           );
 
           // Navigate to home after a short delay with slide and fade transition
-          Future.delayed(const Duration(milliseconds: 500), () {
-            if (mounted) {
-              AppRoutes.navigateToHome(
-                context,
-                clearStack: true,
-                transition: TransitionType.slideFade,
-              );
-            }
-          });
+          Future.delayed(
+            const Duration(milliseconds: AppDimensions.animationVerySlow),
+            () {
+              if (mounted) {
+                AppRoutes.navigateToHome(
+                  context,
+                  clearStack: true,
+                  transition: TransitionType.slideFade,
+                );
+              }
+            },
+          );
         }
       } catch (e) {
         // Handle error if needed
@@ -81,50 +85,52 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         children: [
-          TextFormField(
+          AppTextField(
+            label: AppStrings.email,
+            hint: 'Enter your email',
             controller: _emailController,
-            decoration: const InputDecoration(labelText: AppStrings.email),
             keyboardType: TextInputType.emailAddress,
-            validator: (value) =>
-                value!.isEmpty ? AppStrings.emailRequired : null,
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _passwordController,
-            obscureText: _obscurePassword,
-            decoration: InputDecoration(
-              labelText: AppStrings.password,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscurePassword = !_obscurePassword;
-                  });
-                },
+            isRequired: true,
+            prefixIcon: Icon(
+              Icons.email_outlined,
+              size: ResponsiveUtils.getResponsiveIconSize(
+                context,
+                AppDimensions.iconMedium,
               ),
             ),
-            validator: (value) =>
-                value!.isEmpty ? AppStrings.passwordRequired : null,
           ),
-          const SizedBox(height: 24),
           SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _handleLogin,
-              child: _isLoading
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : const Text(AppStrings.login),
+            height: ResponsiveUtils.getResponsiveSpacing(
+              context,
+              AppDimensions.spacing16,
             ),
+          ),
+          AppTextField(
+            label: AppStrings.password,
+            hint: 'Enter your password',
+            controller: _passwordController,
+            obscureText: true,
+            isRequired: true,
+            prefixIcon: Icon(
+              Icons.lock_outlined,
+              size: ResponsiveUtils.getResponsiveIconSize(
+                context,
+                AppDimensions.iconMedium,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: ResponsiveUtils.getResponsiveSpacing(
+              context,
+              AppDimensions.spacing24,
+            ),
+          ),
+          AppButton(
+            label: AppStrings.login,
+            onPressed: _isLoading ? null : _handleLogin,
+            isLoading: _isLoading,
+            isFullWidth: true,
+            icon: Icons.login,
           ),
         ],
       ),

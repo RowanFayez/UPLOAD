@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_strings.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 import 'package:taskaia/data/models/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -12,18 +14,19 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardHeight = ResponsiveUtils.getCardHeight(context);
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 300, // Fixed height to prevent overflow
+        height: cardHeight,
         decoration: BoxDecoration(
           color: isDark ? AppColors.darkCard : AppColors.productBackground,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
           boxShadow: [
             BoxShadow(
               color: AppColors.cardShadow,
-              blurRadius: 10,
+              blurRadius: AppDimensions.blurRadiusMedium,
               offset: const Offset(0, 2),
             ),
           ],
@@ -36,7 +39,7 @@ class ProductCard extends StatelessWidget {
               flex: 3,
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(16),
+                  top: Radius.circular(AppDimensions.radiusLarge),
                 ),
                 child: Hero(
                   tag: 'product-image-${product.id}',
@@ -45,7 +48,7 @@ class ProductCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.productImagePlaceholder,
                       borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
+                        top: Radius.circular(AppDimensions.radiusLarge),
                       ),
                     ),
                     child: Image.asset(
@@ -53,9 +56,9 @@ class ProductCard extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: AppColors.productImagePlaceholder,
-                        child: const Icon(
+                        child: Icon(
                           Icons.image_not_supported,
-                          size: 40,
+                          size: AppDimensions.iconXLarge,
                           color: AppColors.textLight,
                         ),
                       ),
@@ -69,7 +72,7 @@ class ProductCard extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(AppDimensions.spacing12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -79,14 +82,21 @@ class ProductCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(
+                          context,
+                          AppDimensions.fontLarge,
+                        ),
                         fontWeight: FontWeight.bold,
-                        color: isDark
-                            ? AppColors.darkText
-                            : AppColors.textPrimary,
+                        color:
+                            isDark ? AppColors.darkText : AppColors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(
+                      height: ResponsiveUtils.getResponsiveSpacing(
+                        context,
+                        AppDimensions.spacing4,
+                      ),
+                    ),
 
                     // Product Description
                     Expanded(
@@ -95,7 +105,10 @@ class ProductCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(
+                            context,
+                            AppDimensions.fontSmall,
+                          ),
                           color: isDark
                               ? AppColors.darkTextSecondary
                               : AppColors.textSecondary,
@@ -104,7 +117,12 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: ResponsiveUtils.getResponsiveSpacing(
+                        context,
+                        AppDimensions.spacing8,
+                      ),
+                    ),
 
                     // Rating and Price Row
                     Row(
@@ -113,14 +131,20 @@ class ProductCard extends StatelessWidget {
                         if (product.rating > 0) ...[
                           Icon(
                             Icons.star,
-                            size: 14,
+                            size: ResponsiveUtils.getResponsiveIconSize(
+                              context,
+                              AppDimensions.iconSmall,
+                            ),
                             color: AppColors.ratingYellow,
                           ),
                           const SizedBox(width: 2),
                           Text(
                             product.rating.toStringAsFixed(1),
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: ResponsiveUtils.getResponsiveFontSize(
+                                context,
+                                AppDimensions.fontSmall,
+                              ),
                               color: isDark
                                   ? AppColors.darkTextSecondary
                                   : AppColors.textSecondary,
@@ -132,8 +156,11 @@ class ProductCard extends StatelessWidget {
                         // Price
                         Text(
                           '\$${product.price.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            fontSize: 16,
+                          style: TextStyle(
+                            fontSize: ResponsiveUtils.getResponsiveFontSize(
+                              context,
+                              AppDimensions.fontLarge,
+                            ),
                             fontWeight: FontWeight.w600,
                             color: AppColors.productPrice,
                           ),

@@ -4,11 +4,11 @@ import '../../../../core/utils/responsive_utils.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../product/widgets/product_card.dart';
 
-class ProductsGrid extends StatelessWidget {
+class StaggeredProductsGrid extends StatelessWidget {
   final List<Product> products;
   final Function(Product) onProductTap;
 
-  const ProductsGrid({
+  const StaggeredProductsGrid({
     super.key,
     required this.products,
     required this.onProductTap,

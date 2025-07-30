@@ -24,17 +24,17 @@ class CategoryChip extends StatelessWidget {
         duration: const Duration(milliseconds: AppDimensions.animationFast),
         margin: const EdgeInsets.only(right: AppDimensions.spacing12),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.spacing20,
-          vertical: AppDimensions.spacing10,
+          horizontal: AppDimensions.spacing16,
+          vertical: AppDimensions.spacing8,
         ),
         decoration: BoxDecoration(
           color: isSelected
               ? (isDark
-                    ? AppColors.chipSelectedDark
-                    : AppColors.chipSelectedLight)
+                  ? AppColors.chipSelectedDark
+                  : AppColors.chipSelectedLight)
               : (isDark
-                    ? AppColors.chipUnselectedDark
-                    : AppColors.chipUnselectedLight),
+                  ? AppColors.chipUnselectedDark
+                  : AppColors.chipUnselectedLight),
           borderRadius: BorderRadius.circular(AppDimensions.radiusCircular),
           border: isSelected
               ? null
@@ -50,11 +50,11 @@ class CategoryChip extends StatelessWidget {
           style: TextStyle(
             color: isSelected
                 ? (isDark
-                      ? AppColors.chipSelectedLight
-                      : AppColors.chipSelectedDark)
+                    ? AppColors.chipSelectedLight
+                    : AppColors.chipSelectedDark)
                 : (isDark
-                      ? AppColors.chipTextUnselectedDark
-                      : AppColors.chipTextUnselectedLight),
+                    ? AppColors.chipTextUnselectedDark
+                    : AppColors.chipTextUnselectedLight),
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
             fontSize: AppDimensions.fontMedium,
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
 import '../../../../data/models/product.dart';
 
 class ProductDetailsHeader extends StatelessWidget {
@@ -16,31 +18,44 @@ class ProductDetailsHeader extends StatelessWidget {
         // Product Image with Hero Animation
         Container(
           width: double.infinity,
-          margin: const EdgeInsets.symmetric(horizontal: 20),
+          height: double.infinity,
+          margin: ResponsiveUtils.getHorizontalPadding(context),
           child: Hero(
             tag: 'product-image-${product.id}',
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.cardShadow,
-                    blurRadius: 20,
+                    blurRadius: AppDimensions.blurRadiusLarge,
                     offset: const Offset(0, 10),
                   ),
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: AppColors.productImagePlaceholder,
-                    child: const Icon(
-                      Icons.image_not_supported,
-                      size: 50,
-                      color: AppColors.textLight,
+                borderRadius: BorderRadius.circular(AppDimensions.radiusLarge),
+                child: AspectRatio(
+                  aspectRatio: 1.0, // Fixed aspect ratio to match ProductCard
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.productImagePlaceholder,
+                    ),
+                    child: Image.asset(
+                      product.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: AppColors.productImagePlaceholder,
+                        child: Icon(
+                          Icons.image_not_supported,
+                          size: ResponsiveUtils.getResponsiveIconSize(
+                            context,
+                            AppDimensions.iconXXLarge,
+                          ),
+                          color: AppColors.textLight,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -51,17 +66,24 @@ class ProductDetailsHeader extends StatelessWidget {
 
         // Back Button
         Positioned(
-          top: MediaQuery.of(context).padding.top + 10,
-          left: 20,
+          top: MediaQuery.of(context).padding.top +
+              ResponsiveUtils.getResponsiveSpacing(
+                context,
+                AppDimensions.spacing8,
+              ),
+          left: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.spacing16,
+          ),
           child: Container(
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(AppDimensions.spacing8),
             decoration: BoxDecoration(
               color: isDark ? AppColors.darkCard : AppColors.white,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
                   color: AppColors.cardShadow,
-                  blurRadius: 8,
+                  blurRadius: AppDimensions.blurRadiusSmall,
                   offset: const Offset(0, 2),
                 ),
               ],
@@ -69,6 +91,10 @@ class ProductDetailsHeader extends StatelessWidget {
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back,
+                size: ResponsiveUtils.getResponsiveIconSize(
+                  context,
+                  AppDimensions.iconMedium,
+                ),
                 color: isDark ? AppColors.darkText : AppColors.textPrimary,
               ),
               onPressed: () => Navigator.pop(context),

@@ -3,6 +3,10 @@ import 'package:taskaia/core/managers/app_dialog.dart';
 import 'package:taskaia/core/theme/app_strings.dart';
 import 'package:taskaia/core/routing/app_routes.dart';
 import 'package:taskaia/presentation/features/home/view/home_screen.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_dimensions.dart';
+import '../../../../core/utils/responsive_utils.dart';
+import '../../../../core/widgets/responsive_scaffold.dart';
 import '../widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -27,33 +31,97 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenPadding = ResponsiveUtils.getScreenPadding(context);
+
+    return ResponsiveScaffold(
+      backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
+      useSafeArea: true,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: screenPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 AppStrings.welcomeBack,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontDisplay,
+                  ),
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppColors.darkText : AppColors.textPrimary,
+                ),
               ),
-              const SizedBox(height: 8),
-              const Text(AppStrings.signInToPlan),
-              const SizedBox(height: 32),
+              SizedBox(
+                height: ResponsiveUtils.getResponsiveSpacing(
+                  context,
+                  AppDimensions.spacing8,
+                ),
+              ),
+              Text(
+                AppStrings.signInToPlan,
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontLarge,
+                  ),
+                  color: isDark
+                      ? AppColors.darkTextSecondary
+                      : AppColors.textSecondary,
+                ),
+              ),
+              SizedBox(
+                height: ResponsiveUtils.getResponsiveSpacing(
+                  context,
+                  AppDimensions.spacing32,
+                ),
+              ),
               const LoginForm(),
-              const SizedBox(height: 24),
+              SizedBox(
+                height: ResponsiveUtils.getResponsiveSpacing(
+                  context,
+                  AppDimensions.spacing24,
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(AppStrings.dontHaveAccount),
+                  Text(
+                    AppStrings.dontHaveAccount,
+                    style: TextStyle(
+                      fontSize: ResponsiveUtils.getResponsiveFontSize(
+                        context,
+                        AppDimensions.fontMedium,
+                      ),
+                      color: isDark
+                          ? AppColors.darkTextSecondary
+                          : AppColors.textSecondary,
+                    ),
+                  ),
                   TextButton(
                     onPressed: () => _showSignupInstructions(context),
-                    child: const Text(AppStrings.createOne),
+                    child: Text(
+                      AppStrings.createOne,
+                      style: TextStyle(
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(
+                          context,
+                          AppDimensions.fontMedium,
+                        ),
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: ResponsiveUtils.getResponsiveSpacing(
+                  context,
+                  AppDimensions.spacing16,
+                ),
+              ),
               Center(
                 child: TextButton(
                   onPressed: () {
@@ -62,10 +130,22 @@ class LoginScreen extends StatelessWidget {
                       context,
                       const HomeScreen(),
                       transition: TransitionType.fade,
-                      duration: const Duration(milliseconds: 500),
+                      duration: const Duration(
+                        milliseconds: AppDimensions.animationVerySlow,
+                      ),
                     );
                   },
-                  child: const Text(AppStrings.exploreAsGuest),
+                  child: Text(
+                    AppStrings.exploreAsGuest,
+                    style: TextStyle(
+                      fontSize: ResponsiveUtils.getResponsiveFontSize(
+                        context,
+                        AppDimensions.fontMedium,
+                      ),
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ),
             ],

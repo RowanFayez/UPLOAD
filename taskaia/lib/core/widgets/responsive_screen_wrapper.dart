@@ -1,38 +1,46 @@
-// import 'package:flutter/material.dart';
-// import '../utils/responsive_utils.dart';
-// import 'safe_area_wrapper.dart';
+import 'package:flutter/material.dart';
+import '../utils/responsive_utils.dart';
+import '../theme/app_dimensions.dart';
+import 'safe_area_wrapper.dart';
 
-// class ResponsiveScreenWrapper extends StatelessWidget {
-//   final Widget child;
-//   final bool useSafeArea;
-//   final bool centerContent;
-//   final EdgeInsets? customPadding;
+class ResponsiveScreenWrapper extends StatelessWidget {
+  final Widget child;
+  final bool useSafeArea;
+  final EdgeInsets? customPadding;
+  final bool includeTop;
+  final bool includeBottom;
+  final Color? backgroundColor;
 
-//   const ResponsiveScreenWrapper({
-//     super.key,
-//     required this.child,
-//     this.useSafeArea = true,
-//     this.centerContent = false,
-//     this.customPadding,
-//   });
+  const ResponsiveScreenWrapper({
+    super.key,
+    required this.child,
+    this.useSafeArea = true,
+    this.customPadding,
+    this.includeTop = true,
+    this.includeBottom = true,
+    this.backgroundColor,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     Widget content = ConstrainedBox(
-//       constraints: BoxConstraints(
-//         maxWidth: ResponsiveUtils.getContentMaxWidth(context),
-//       ),
-//       child: child,
-//     );
+  @override
+  Widget build(BuildContext context) {
+    Widget content = child;
 
-//     if (centerContent) {
-//       content = Center(child: content);
-//     }
+    if (useSafeArea) {
+      content = SafeAreaWrapper(
+        includeTop: includeTop,
+        includeBottom: includeBottom,
+        customPadding: customPadding,
+        child: content,
+      );
+    } else if (customPadding != null) {
+      content = Padding(padding: customPadding!, child: content);
+    }
 
-//     if (useSafeArea) {
-//       content = SafeAreaWrapper(customPadding: customPadding, child: content);
-//     }
-
-//     return content;
-//   }
-// }
+    return Container(
+      color: backgroundColor,
+      width: double.infinity,
+      height: double.infinity,
+      child: content,
+    );
+  }
+}
