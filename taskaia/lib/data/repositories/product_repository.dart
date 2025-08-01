@@ -1,42 +1,53 @@
+import 'package:injectable/injectable.dart';
 import '../models/product.dart';
-import '../datasources/product_data_source.dart';
+import '../datasources/api_client.dart';
 
 abstract class ProductRepository {
   Future<List<Product>> getAllProducts();
   Future<List<Product>> getProductsByCategory(String category);
-  Future<Product?> getProductById(String id);
+  Future<Product> getProductById(int id);
   Future<List<String>> getCategories();
 }
 
-class LocalProductRepository implements ProductRepository {
+@Injectable(as: ProductRepository)
+class ApiProductRepository implements ProductRepository {
+  final ApiClient _apiClient;
+
+  ApiProductRepository(this._apiClient);
+
   @override
   Future<List<Product>> getAllProducts() async {
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 300));
-    return ProductDataSource.getAllProducts();
+    try {
+      return await _apiClient.getProducts();
+    } catch (e) {
+      throw Exception('Failed to fetch products: $e');
+    }
   }
 
   @override
   Future<List<Product>> getProductsByCategory(String category) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    final allProducts = ProductDataSource.getAllProducts();
-    return allProducts.where((product) => product.category == category).toList();
+    try {
+      return await _apiClient.getProductsByCategory(category);
+    } catch (e) {
+      throw Exception('Failed to fetch products by category: $e');
+    }
   }
 
   @override
-  Future<Product?> getProductById(String id) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    final allProducts = ProductDataSource.getAllProducts();
+  Future<Product> getProductById(int id) async {
     try {
-      return allProducts.firstWhere((product) => product.id == id);
+      return await _apiClient.getProduct(id);
     } catch (e) {
-      return null;
+      throw Exception('Failed to fetch product: $e');
     }
   }
 
   @override
   Future<List<String>> getCategories() async {
-    await Future.delayed(const Duration(milliseconds: 200));
-    return ProductDataSource.getCategories();
+    try {
+      return await _apiClient.getCategories();
+    } catch (e) {
+      throw Exception('Failed to fetch categories: $e');
+    }
   }
 }

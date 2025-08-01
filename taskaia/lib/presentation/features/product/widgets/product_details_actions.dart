@@ -94,7 +94,7 @@ class ProductDetailsActions extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '${product.name} ${AppStrings.addedToCart}',
+          '${product.title} ${AppStrings.addedToCart}',
         ), // Changed from hardcoded string
         backgroundColor: AppColors.successGreen,
         behavior: SnackBarBehavior.floating,

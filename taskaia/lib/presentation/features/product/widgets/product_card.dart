@@ -77,7 +77,7 @@ class ProductCard extends StatelessWidget {
                     // Product Name - Fixed Overflow
                     Flexible(
                       child: Text(
-                        product.name,
+                        product.title,
                         maxLines: 2, // Changed from 1 to 2
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -99,7 +99,7 @@ class ProductCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Rating
-                        if (product.rating > 0)
+                        if (product.rating.rate > 0)
                           Flexible(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -111,7 +111,7 @@ class ProductCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 2),
                                 Text(
-                                  product.rating.toStringAsFixed(1),
+                                  product.rating.rate.toStringAsFixed(1),
                                   style: TextStyle(
                                     fontSize: AppDimensions.fontSmall,
                                     color: isDark
