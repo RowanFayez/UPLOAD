@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:session/core/remote/api_constants.dart';
+import 'package:taskaia/core/remote/api_constants.dart';
 
 class ApiService {
   final Dio _dio = Dio();
