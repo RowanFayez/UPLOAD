@@ -7,6 +7,8 @@ part 'api_client.g.dart';
 
 @RestApi(baseUrl: 'https://fakestoreapi.com')
 abstract class ApiClient {
+  @GET('/users')
+  Future<List<User>> getUsers();
   factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
 
   @GET('/products')
@@ -19,7 +21,8 @@ abstract class ApiClient {
   Future<List<String>> getCategories();
 
   @GET('/products/category/{category}')
-  Future<List<Product>> getProductsByCategory(@Path('category') String category);
+  Future<List<Product>> getProductsByCategory(
+      @Path('category') String category);
 
   @GET('/carts')
   Future<List<Cart>> getCarts();

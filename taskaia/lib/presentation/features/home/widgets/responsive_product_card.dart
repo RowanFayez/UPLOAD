@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_strings.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/utils/responsive_utils.dart';
 import '../../../../data/models/product.dart';
@@ -64,8 +63,8 @@ class ResponsiveProductCard extends StatelessWidget {
               top: Radius.circular(AppDimensions.radiusLarge),
             ),
           ),
-          child: Image.asset(
-            product.imageUrl,
+          child: Image.network(
+            product.image,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(
               color: AppColors.productImagePlaceholder,
@@ -136,7 +135,7 @@ class ResponsiveProductCard extends StatelessWidget {
     return Row(
       children: [
         // Rating
-        if (product.rating > 0) ...[
+        if (product.rating.rate > 0) ...[
           Icon(
             Icons.star,
             size: ResponsiveUtils.getResponsiveIconSize(
@@ -147,7 +146,7 @@ class ResponsiveProductCard extends StatelessWidget {
           ),
           const SizedBox(width: 2),
           Text(
-            product.rating.toStringAsFixed(1),
+            product.rating.rate.toStringAsFixed(1),
             style: TextStyle(
               fontSize: ResponsiveUtils.getResponsiveFontSize(
                 context,
