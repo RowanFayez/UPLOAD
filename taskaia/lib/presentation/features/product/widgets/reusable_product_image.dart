@@ -49,11 +49,26 @@ class ReusableProductImage extends StatelessWidget {
         child: ClipRRect(
           borderRadius: borderRadius != null
               ? BorderRadius.circular(borderRadius!)
-              : BorderRadius.zero,
+            child: Image.network(
           child: Image.asset(
             imageUrl,
             fit: fit,
             width: width,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                  color: AppColors.productImagePlaceholder,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                );
+              },
             height: height,
             errorBuilder: (context, error, stackTrace) => Container(
               color: AppColors.productImagePlaceholder,

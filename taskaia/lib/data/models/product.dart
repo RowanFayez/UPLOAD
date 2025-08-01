@@ -1,75 +1,54 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'product.g.dart';
+
+@JsonSerializable()
 class Product {
-  final String id;
-  final String name;
+  final int id;
+  final String title;
   final double price;
-  final String imageUrl;
   final String description;
   final String category;
-  final bool isAvailable;
-  final double rating;
-  final int reviewCount;
+  final String image;
+  final Rating rating;
 
   const Product({
     required this.id,
-    required this.name,
+    required this.title,
     required this.price,
-    required this.imageUrl,
     required this.description,
-    this.category = 'General',
-    this.isAvailable = true,
-    this.rating = 0.0,
-    this.reviewCount = 0,
+    required this.category,
+    required this.image,
+    required this.rating,
   });
 
+  // Convert to old Product model format for UI compatibility
+  String get name => title;
+  String get imageUrl => image;
+  bool get isAvailable => true;
+  double get ratingValue => rating.rate;
+  int get reviewCount => rating.count;
+
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
+
   Product copyWith({
-    String? id,
-    String? name,
+    int? id,
+    String? title,
     double? price,
-    String? imageUrl,
     String? description,
     String? category,
-    bool? isAvailable,
-    double? rating,
-    int? reviewCount,
+    String? image,
+    Rating? rating,
   }) {
     return Product(
       id: id ?? this.id,
-      name: name ?? this.name,
+      title: title ?? this.title,
       price: price ?? this.price,
-      imageUrl: imageUrl ?? this.imageUrl,
       description: description ?? this.description,
       category: category ?? this.category,
-      isAvailable: isAvailable ?? this.isAvailable,
+      image: image ?? this.image,
       rating: rating ?? this.rating,
-      reviewCount: reviewCount ?? this.reviewCount,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'price': price,
-      'imageUrl': imageUrl,
-      'description': description,
-      'category': category,
-      'isAvailable': isAvailable,
-      'rating': rating,
-      'reviewCount': reviewCount,
-    };
-  }
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      price: (json['price'] ?? 0.0).toDouble(),
-      imageUrl: json['imageUrl'] ?? '',
-      description: json['description'] ?? '',
-      category: json['category'] ?? 'General',
-      isAvailable: json['isAvailable'] ?? true,
-      rating: (json['rating'] ?? 0.0).toDouble(),
-      reviewCount: json['reviewCount'] ?? 0,
     );
   }
 
@@ -84,6 +63,20 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, price: $price)';
+    return 'Product(id: $id, title: $title, price: $price)';
   }
+}
+
+@JsonSerializable()
+class Rating {
+  final double rate;
+  final int count;
+
+  const Rating({
+    required this.rate,
+    required this.count,
+  });
+
+  factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
+  Map<String, dynamic> toJson() => _$RatingToJson(this);
 }

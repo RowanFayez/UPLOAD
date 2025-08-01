@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'core/di/injection.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_manager.dart';
 import 'core/routing/app_routes.dart';
@@ -7,7 +9,12 @@ import 'core/routing/app_routes.dart';
 final GlobalKey<NavigatorState> appKey = GlobalKey<NavigatorState>();
 BuildContext get appContext => appKey.currentContext!;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Configure dependency injection
+  configureDependencies();
+  
   runApp(const AlexTramApp());
 }
 

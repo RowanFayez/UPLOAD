@@ -22,7 +22,7 @@ class ProductDetailsHeader extends StatelessWidget {
           height: double.infinity,
           padding: ResponsiveUtils.getHorizontalPadding(context),
           child: ReusableProductImage(
-            imageUrl: product.imageUrl,
+            imageUrl: product.image,
             heroTag: 'product-image-${product.id}',
             aspectRatio: 1.2, // Fixed aspect ratio to prevent overflow
             borderRadius: AppDimensions.radiusLarge,

@@ -29,7 +29,7 @@ class ProductDetailsContent extends StatelessWidget {
 
           // Product Name
           Text(
-            product.name,
+            product.title,
             style: TextStyle(
               fontSize: ResponsiveUtils.getResponsiveFontSize(
                 context,
@@ -47,8 +47,8 @@ class ProductDetailsContent extends StatelessWidget {
 
           // Rating and Reviews
           ProductRatingWidget(
-            rating: product.rating,
-            reviewCount: product.reviewCount,
+            rating: product.rating.rate,
+            reviewCount: product.rating.count,
           ),
 
           SizedBox(height: ResponsiveUtils.getResponsiveSpacing(
