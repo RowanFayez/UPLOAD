@@ -39,12 +39,4 @@ abstract class RegisterModule {
 
   @singleton
   ApiClient apiClient(Dio dio) => ApiClient(dio);
-
-  @singleton
-  ProductRepository productRepository(ApiClient apiClient) =>
-      ApiProductRepository(apiClient);
-
-  @singleton
-  HomeController homeController(ProductRepository productRepository) =>
-      HomeController(productRepository);
 }

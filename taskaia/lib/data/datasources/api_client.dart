@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+
 import '../models/product.dart';
 import '../models/cart.dart';
+import '../models/user.dart';
 
 part 'api_client.g.dart';
 

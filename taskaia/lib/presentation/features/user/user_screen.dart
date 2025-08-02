@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../core/di/injection.dart';
 import '../../../data/datasources/api_client.dart';
 import '../../../data/models/user.dart';
+import 'user_card.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
@@ -17,7 +17,7 @@ class UserScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return Center(child: Text('Error: \\${snapshot.error}'));
+          return Center(child: Text('Error: ${snapshot.error}'));
         }
         final users = snapshot.data ?? [];
         if (users.isEmpty) {
@@ -27,14 +27,7 @@ class UserScreen extends StatelessWidget {
           itemCount: users.length,
           itemBuilder: (context, index) {
             final user = users[index];
-            return Card(
-              margin: const EdgeInsets.all(12),
-              child: ListTile(
-                title: Text(user.username),
-                subtitle: Text(user.email),
-                trailing: Text(user.name.firstname + ' ' + user.name.lastname),
-              ),
-            );
+            return UserCard(user: user);
           },
         );
       },

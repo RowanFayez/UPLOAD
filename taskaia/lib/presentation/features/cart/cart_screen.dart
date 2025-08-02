@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import '../../../core/di/injection.dart';
-import '../../../data/repositories/product_repository.dart';
+import '../../../data/datasources/api_client.dart';
 import '../../../data/models/cart.dart';
+import 'cart_card.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -10,7 +11,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Cart>>(
-      future: getIt<ProductRepository>().apiClient.getCarts(),
+      future: getIt<ApiClient>().getCarts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -26,14 +27,7 @@ class CartScreen extends StatelessWidget {
           itemCount: carts.length,
           itemBuilder: (context, index) {
             final cart = carts[index];
-            return Card(
-              margin: const EdgeInsets.all(12),
-              child: ListTile(
-                title: Text('Cart #${cart.id}'),
-                subtitle: Text('User: ${cart.userId}\nDate: ${cart.date}'),
-                trailing: Text('Items: ${cart.products.length}'),
-              ),
-            );
+            return CartCard(cart: cart);
           },
         );
       },

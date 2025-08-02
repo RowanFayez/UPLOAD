@@ -15,6 +15,8 @@ import '../../../../core/widgets/responsive_scaffold.dart';
 import '../widgets/home_header.dart';
 import '../widgets/category_chips.dart';
 import '../widgets/staggered_products_grid.dart';
+import '../../cart/cart_screen.dart';
+import '../../user/user_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,7 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return ChangeNotifierProvider.value(
       value: _homeController,
       child: ResponsiveScaffold(
-        backgroundColor: isDark ? AppColors.darkBackground : AppColors.background,
+        backgroundColor:
+            isDark ? AppColors.darkBackground : AppColors.background,
         appBar: AppBar(
           leading: Icon(
             Icons.menu,
@@ -56,6 +59,34 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           actions: [
+            IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                size: ResponsiveUtils.getResponsiveIconSize(
+                  context,
+                  AppDimensions.iconMedium,
+                ),
+              ),
+              tooltip: 'Carts',
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const CartScreen()));
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.person,
+                size: ResponsiveUtils.getResponsiveIconSize(
+                  context,
+                  AppDimensions.iconMedium,
+                ),
+              ),
+              tooltip: 'Users',
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const UserScreen()));
+              },
+            ),
             Switch(
               value: _themeManager.isDarkMode,
               onChanged: (value) {
@@ -83,21 +114,21 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const HomeHeader(),
-                
+
                 // Category Chips
                 CategoryChips(
                   categories: controller.categories,
                   selectedCategory: controller.selectedCategory,
                   onCategorySelected: controller.selectCategory,
                 ),
-                
+
                 SizedBox(
                   height: ResponsiveUtils.getResponsiveSpacing(
                     context,
                     AppDimensions.spacing20,
                   ),
                 ),
-                
+
                 // Products Grid with Loading/Error States
                 Expanded(
                   child: _buildProductsContent(controller),
