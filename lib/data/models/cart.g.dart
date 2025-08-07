@@ -25,10 +25,16 @@ Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
 CartProduct _$CartProductFromJson(Map<String, dynamic> json) => CartProduct(
       productId: (json['productId'] as num).toInt(),
       quantity: (json['quantity'] as num).toInt(),
-    );
+    )
+      ..product = json['product'] == null
+          ? null
+          : Product.fromJson(json['product'] as Map<String, dynamic>)
+      ..size = json['size'] as String?;
 
 Map<String, dynamic> _$CartProductToJson(CartProduct instance) =>
     <String, dynamic>{
       'productId': instance.productId,
       'quantity': instance.quantity,
+      'product': instance.product,
+      'size': instance.size,
     };

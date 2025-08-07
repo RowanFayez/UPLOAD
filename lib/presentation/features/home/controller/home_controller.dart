@@ -24,12 +24,13 @@ class HomeController extends ChangeNotifier {
   Future<void> loadProducts() async {
     _setLoading(true);
     _error = null;
-    
+
     try {
       if (_selectedCategory == 'all') {
-        _products = await _productRepository.getAllProducts();
+        _products = await _productRepository.getProducts();
       } else {
-        _products = await _productRepository.getProductsByCategory(_selectedCategory);
+        _products =
+            await _productRepository.getProductsByCategory(_selectedCategory);
       }
     } catch (e) {
       _error = e.toString();

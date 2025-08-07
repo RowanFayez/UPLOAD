@@ -3,7 +3,9 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../data/datasources/api_client.dart';
+import '../../data/datasources/product_api.dart';
 import '../../data/repositories/product_repository.dart';
+import '../../data/repositories/cart_repository.dart';
 import 'package:taskaia/presentation/features/home/controller/home_controller.dart';
 
 import 'injection.config.dart';
@@ -39,4 +41,7 @@ abstract class RegisterModule {
 
   @singleton
   ApiClient apiClient(Dio dio) => ApiClient(dio);
+
+  @singleton
+  ProductApi productApi(Dio dio) => ProductApi(dio);
 }

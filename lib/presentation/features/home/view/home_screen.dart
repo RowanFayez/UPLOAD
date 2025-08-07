@@ -6,6 +6,7 @@ import 'package:taskaia/core/routing/app_routes.dart';
 import 'package:taskaia/core/theme/theme_manager.dart';
 import 'package:taskaia/core/di/injection.dart';
 import 'package:taskaia/presentation/features/product/screens/product_details_screen.dart';
+import 'package:taskaia/presentation/features/cart/cart_screen.dart';
 import '../controller/home_controller.dart';
 import '../../../../core/theme/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -14,9 +15,7 @@ import '../../../../core/utils/responsive_utils.dart';
 import '../../../../core/widgets/responsive_scaffold.dart';
 import '../widgets/home_header.dart';
 import '../widgets/category_chips.dart';
-import '../widgets/staggered_products_grid.dart';
-import '../../cart/cart_screen.dart';
-import '../../user/user_screen.dart';
+import '../widgets/products_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ThemeManager _themeManager = ThemeManager();
   late HomeController _homeController;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -47,89 +47,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return ChangeNotifierProvider.value(
       value: _homeController,
-      child: ResponsiveScaffold(
+      child: Scaffold(
         backgroundColor:
             isDark ? AppColors.darkBackground : AppColors.background,
-        appBar: AppBar(
-          leading: Icon(
-            Icons.menu,
-            size: ResponsiveUtils.getResponsiveIconSize(
-              context,
-              AppDimensions.iconMedium,
-            ),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                size: ResponsiveUtils.getResponsiveIconSize(
-                  context,
-                  AppDimensions.iconMedium,
-                ),
-              ),
-              tooltip: 'Carts',
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const CartScreen()));
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.person,
-                size: ResponsiveUtils.getResponsiveIconSize(
-                  context,
-                  AppDimensions.iconMedium,
-                ),
-              ),
-              tooltip: 'Users',
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const UserScreen()));
-              },
-            ),
-            Switch(
-              value: _themeManager.isDarkMode,
-              onChanged: (value) {
-                _themeManager.toggleTheme();
-                setState(() {});
-              },
-              activeColor: AppColors.primary,
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.logout,
-                size: ResponsiveUtils.getResponsiveIconSize(
-                  context,
-                  AppDimensions.iconMedium,
-                ),
-              ),
-              onPressed: _showLogoutConfirmation,
-              tooltip: AppStrings.logout,
-            ),
-          ],
-        ),
         body: Consumer<HomeController>(
           builder: (context, controller, child) {
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const HomeHeader(),
+                // Status Bar and Header
+                _buildStatusBar(),
+                _buildHeader(),
+
+                // Search Bar
+                _buildSearchBar(),
+
+                // Promotional Banner
+                _buildPromotionalBanner(),
 
                 // Category Chips
-                CategoryChips(
-                  categories: controller.categories,
-                  selectedCategory: controller.selectedCategory,
-                  onCategorySelected: controller.selectCategory,
-                ),
+                _buildCategoryChips(controller),
 
-                SizedBox(
-                  height: ResponsiveUtils.getResponsiveSpacing(
-                    context,
-                    AppDimensions.spacing20,
-                  ),
-                ),
-
-                // Products Grid with Loading/Error States
+                // Products Grid
                 Expanded(
                   child: _buildProductsContent(controller),
                 ),
@@ -137,6 +75,220 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
+        bottomNavigationBar: _buildBottomNavigation(),
+      ),
+    );
+  }
+
+  Widget _buildStatusBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            AppStrings.homeTitle,
+            style: TextStyle(
+              fontSize: AppDimensions.fontLarge,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          Row(
+            children: [
+              Icon(Icons.signal_cellular_4_bar,
+                  size: 16, color: AppColors.textPrimary),
+              const SizedBox(width: 4),
+              Icon(Icons.wifi, size: 16, color: AppColors.textPrimary),
+              const SizedBox(width: 4),
+              Icon(Icons.battery_full, size: 16, color: AppColors.textPrimary),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppStrings.homeWelcome,
+                style: TextStyle(
+                  fontSize: AppDimensions.fontMedium,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              Text(
+                'Falcon Thought',
+                style: TextStyle(
+                  fontSize: AppDimensions.fontLarge,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.shopping_bag,
+              color: AppColors.textPrimary,
+              size: 24,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CartScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.cardShadow,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: AppStrings.discoverProducts,
+          hintStyle: TextStyle(
+            color: AppColors.textLight,
+            fontSize: AppDimensions.fontMedium,
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            color: AppColors.textLight,
+          ),
+          border: InputBorder.none,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPromotionalBanner() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.shopWithUs,
+                  style: TextStyle(
+                    fontSize: AppDimensions.fontLarge,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  AppStrings.getDiscount,
+                  style: TextStyle(
+                    fontSize: AppDimensions.fontMedium,
+                    color: AppColors.white.withOpacity(0.9),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    AppStrings.shopNow,
+                    style: TextStyle(
+                      fontSize: AppDimensions.fontMedium,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: AppColors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(40),
+            ),
+            child: Icon(
+              Icons.person,
+              size: 40,
+              color: AppColors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryChips(HomeController controller) {
+    return Container(
+      height: 50,
+      margin: const EdgeInsets.symmetric(vertical: 12),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: controller.categories.length,
+        itemBuilder: (context, index) {
+          final category = controller.categories[index];
+          final isSelected = controller.selectedCategory == category;
+
+          return Container(
+            margin: const EdgeInsets.only(right: 12),
+            child: FilterChip(
+              label: Text(
+                category == 'all' ? AppStrings.all : category,
+                style: TextStyle(
+                  color: isSelected ? AppColors.white : AppColors.textPrimary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              selected: isSelected,
+              onSelected: (_) => controller.selectCategory(category),
+              backgroundColor: AppColors.greyLight,
+              selectedColor: AppColors.primary,
+              checkmarkColor: AppColors.white,
+            ),
+          );
+        },
       ),
     );
   }
@@ -218,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    return StaggeredProductsGrid(
+    return ProductsGrid(
       products: controller.products,
       onProductTap: (product) {
         AppRoutes.navigateWithTransition(
@@ -233,23 +385,46 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showLogoutConfirmation() {
-    AppBottomSheet.showConfirmationSheet(
-      context,
-      title: AppStrings.logoutConfirmation,
-      message: AppStrings.logoutWarning,
-      confirmText: AppStrings.confirmLogout,
-      cancelText: AppStrings.cancel,
-      confirmColor: AppColors.warningRed,
-      onConfirm: () {
-        Navigator.of(context).pop();
-        // Enhanced navigation back to login
-        AppRoutes.navigateToLogin(
-          context,
-          clearStack: true,
-          transition: TransitionType.slideFromLeft,
-        );
+  Widget _buildBottomNavigation() {
+    return BottomNavigationBar(
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
+
+        if (index == 1) {
+          // Cart
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CartScreen()),
+          );
+        }
       },
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: AppColors.primary,
+      unselectedItemColor: AppColors.textLight,
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(_currentIndex == 0 ? Icons.home : Icons.home_outlined),
+          label: AppStrings.homeTitle,
+        ),
+        BottomNavigationBarItem(
+          icon:
+              Icon(_currentIndex == 1 ? Icons.favorite : Icons.favorite_border),
+          label: AppStrings.wishlist,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(_currentIndex == 2
+              ? Icons.notifications
+              : Icons.notifications_outlined),
+          label: AppStrings.notifications,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(_currentIndex == 3 ? Icons.person : Icons.person_outline),
+          label: AppStrings.profile,
+        ),
+      ],
     );
   }
 }

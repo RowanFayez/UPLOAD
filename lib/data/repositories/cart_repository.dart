@@ -1,43 +1,85 @@
 import 'package:injectable/injectable.dart';
+import '../datasources/product_api.dart';
 import '../models/cart.dart';
-import '../datasources/api_client.dart';
+import '../models/product.dart';
 
-abstract class CartRepository {
-  Future<List<Cart>> getAllCarts();
-  Future<Cart> getCartById(int id);
-  Future<List<Cart>> getUserCarts(int userId);
-}
+@injectable
+class CartRepository {
+  final ProductApi _productApi;
 
-@Injectable(as: CartRepository)
-class ApiCartRepository implements CartRepository {
-  final ApiClient _apiClient;
+  CartRepository(this._productApi);
 
-  ApiCartRepository(this._apiClient);
-
-  @override
-  Future<List<Cart>> getAllCarts() async {
+  Future<List<Cart>> getCarts() async {
     try {
-      return await _apiClient.getCarts();
+      return await _productApi.getCarts();
     } catch (e) {
       throw Exception('Failed to fetch carts: $e');
     }
   }
 
-  @override
-  Future<Cart> getCartById(int id) async {
+  Future<Cart> getCart(int id) async {
     try {
-      return await _apiClient.getCart(id);
+      return await _productApi.getCart(id);
     } catch (e) {
       throw Exception('Failed to fetch cart: $e');
     }
   }
 
-  @override
-  Future<List<Cart>> getUserCarts(int userId) async {
+  Future<Cart> createCart(Map<String, dynamic> cartData) async {
     try {
-      return await _apiClient.getUserCarts(userId);
+      return await _productApi.createCart(cartData);
     } catch (e) {
-      throw Exception('Failed to fetch user carts: $e');
+      throw Exception('Failed to create cart: $e');
+    }
+  }
+
+  Future<Cart> updateCart(int id, Map<String, dynamic> cartData) async {
+    try {
+      return await _productApi.updateCart(id, cartData);
+    } catch (e) {
+      throw Exception('Failed to update cart: $e');
+    }
+  }
+
+  Future<Cart> deleteCart(int id) async {
+    try {
+      return await _productApi.deleteCart(id);
+    } catch (e) {
+      throw Exception('Failed to delete cart: $e');
+    }
+  }
+
+  // Helper method to populate cart products with full product details
+  Future<Cart> populateCartWithProducts(Cart cart) async {
+    try {
+      final List<CartProduct> populatedProducts = [];
+      
+      for (final cartProduct in cart.products) {
+        // Fetch product details for each cart product
+        final products = await _productApi.getProducts();
+        final product = products.firstWhere(
+          (p) => p.id == cartProduct.productId,
+          orElse: () => throw Exception('Product not found'),
+        );
+        
+        final populatedCartProduct = CartProduct(
+          productId: cartProduct.productId,
+          quantity: cartProduct.quantity,
+        );
+        populatedCartProduct.product = product;
+        populatedCartProduct.size = 'M'; // Default size, could be made dynamic
+        
+        populatedProducts.add(populatedCartProduct);
+      }
+      
+      return Cart(
+        id: cart.id,
+        userId: cart.userId,
+        date: cart.date,
+        products: populatedProducts,
+      );
+    } catch (e) {
+      throw Exception('Failed to populate cart with products: $e');
     }
   }
 }

@@ -1,11 +1,10 @@
 class AppStrings {
   // General
-  static const String appName = 'Alexandria Tram Guide';
+  static const String appName = 'Taskaia';
 
   // Login Screen
-  static const String welcomeBack = 'Welcome Back';
-  static const String signInToPlan =
-      'Sign in to plan your journey in Alexandria';
+  static const String welcomeBack = 'Welcome Back!';
+  static const String signInToPlan = 'Sign in to start shopping';
   static const String login = 'Login';
   static const String dontHaveAccount = "Don't have an account?";
   static const String createOne = 'Create one';
@@ -29,8 +28,8 @@ class AppStrings {
 
   // Home Screen
   static const String homeTitle = 'Home';
-  static const String homeWelcome = 'Welcome to Alexandria Tram Guide';
-  static const String discoverProducts = 'Discover products';
+  static const String homeWelcome = 'Welcome Back!';
+  static const String discoverProducts = 'What are you looking for...';
   static const String logout = 'Log Out';
 
   // Product Screen
@@ -40,11 +39,28 @@ class AppStrings {
   static const String reviews = 'reviews';
   static const String addedToCart = 'added to cart!';
   static const String imageNotSupported = 'Image not supported';
+  static const String swipeUpForDetails = 'Swipe up for details';
+  static const String continueText = 'Continue →';
+  static const String subTotal = 'Sub total';
+
+  // Cart Screen
+  static const String cart = 'Cart';
+  static const String shipping = 'Shipping';
+  static const String total = 'Total';
+  static const String checkout = 'Checkout →';
 
   // Categories
-  static const String sofas = 'Sofas';
-  static const String chairs = 'Chairs';
-  static const String tables = 'Tables';
+  static const String all = 'All';
+  static const String jackets = 'Jackets';
+  static const String jeans = 'Jeans';
+  static const String shoes = 'Shoes';
+  static const String shirts = 'Shirts';
+  static const String sweaters = 'Sweaters';
+
+  // Promotional
+  static const String shopWithUs = 'Shop with us!';
+  static const String getDiscount = 'Get 40% Off for all items';
+  static const String shopNow = 'Shop Now →';
 
   // New strings for alerts and messages
   static const String welcomeToFamily = 'Welcome to the family! 🎉';
@@ -76,8 +92,17 @@ class AppStrings {
   static const String done = 'Done';
   static const String save = 'Save';
 
+  // Bottom Navigation
+  static const String wishlist = 'Wishlist';
+  static const String notifications = 'Notifications';
+  static const String profile = 'Profile';
+
   // Accessibility
   static const String backButton = 'Back button';
   static const String themeToggle = 'Toggle theme';
   static const String logoutButton = 'Logout button';
+  static const String cartButton = 'Cart button';
+  static const String searchButton = 'Search button';
+  static const String addToCartButton = 'Add to cart button';
+  static const String favoriteButton = 'Favorite button';
 }
