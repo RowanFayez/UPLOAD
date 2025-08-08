@@ -16,31 +16,31 @@ class StaggeredProductsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: ResponsiveUtils.getHorizontalPadding(context),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: ResponsiveUtils.getGridCrossAxisCount(context),
-            childAspectRatio: ResponsiveUtils.getGridChildAspectRatio(context),
-            crossAxisSpacing: ResponsiveUtils.getResponsiveSpacing(
-              context,
-              AppDimensions.gridSpacing,
-            ),
-            mainAxisSpacing: ResponsiveUtils.getResponsiveSpacing(
-              context,
-              AppDimensions.gridSpacing,
-            ),
+    return Padding(
+      padding: ResponsiveUtils.getHorizontalPadding(context),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: ResponsiveUtils.getGridCrossAxisCount(context),
+          childAspectRatio: ResponsiveUtils.getGridChildAspectRatio(context),
+          crossAxisSpacing: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.gridSpacing,
           ),
-          itemCount: products.length,
-          itemBuilder: (context, index) {
-            final product = products[index];
-            return ProductCard(
-              product: product,
-              onTap: () => onProductTap(product),
-            );
-          },
+          mainAxisSpacing: ResponsiveUtils.getResponsiveSpacing(
+            context,
+            AppDimensions.gridSpacing,
+          ),
         ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final product = products[index];
+          return ProductCard(
+            product: product,
+            onTap: () => onProductTap(product),
+          );
+        },
       ),
     );
   }
