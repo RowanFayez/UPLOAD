@@ -18,8 +18,34 @@ class CategoryChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'CategoryChips build - Categories: $categories, Selected: $selectedCategory');
+
     if (categories.isEmpty) {
-      return const SizedBox.shrink();
+      print('CategoryChips: No categories available');
+      return Container(
+        height: ResponsiveUtils.getResponsiveSpacing(context, 80),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(
+                color: AppColors.primary,
+                strokeWidth: 2,
+              ),
+              SizedBox(
+                  height: ResponsiveUtils.getResponsiveSpacing(context, 8)),
+              Text(
+                'Loading categories...',
+                style: TextStyle(
+                  fontSize: AppDimensions.fontMedium,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
     return Padding(
@@ -27,16 +53,28 @@ class CategoryChips extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Categories',
-            style: TextStyle(
-              fontSize: ResponsiveUtils.getResponsiveFontSize(
-                context,
-                AppDimensions.fontTitle,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Categories',
+                style: TextStyle(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(
+                    context,
+                    AppDimensions.fontTitle,
+                  ),
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primary,
+                ),
               ),
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
+              Text(
+                '${categories.length} categories',
+                style: TextStyle(
+                  fontSize: AppDimensions.fontSmall,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: ResponsiveUtils.getResponsiveSpacing(
@@ -52,15 +90,34 @@ class CategoryChips extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = categories[index];
                 final isSelected = category == selectedCategory;
-                
+
+                print(
+                    'Building category chip: $category, isSelected: $isSelected');
+
                 return CategoryChip(
                   label: _formatCategoryName(category),
                   isSelected: isSelected,
-                  onTap: () => onCategorySelected(category),
+                  onTap: () {
+                    print('Category chip tapped: $category');
+                    onCategorySelected(category);
+                  },
                 );
               },
             ),
           ),
+          // Debug info
+          if (categories.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(
+                  top: ResponsiveUtils.getResponsiveSpacing(context, 8)),
+              child: Text(
+                'Debug: Selected: "$selectedCategory" | Available: ${categories.join(", ")}',
+                style: TextStyle(
+                  fontSize: AppDimensions.fontSmall,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -68,11 +125,11 @@ class CategoryChips extends StatelessWidget {
 
   String _formatCategoryName(String category) {
     if (category == 'all') return 'All';
-    
+
     // Capitalize first letter of each word
     return category
         .split(' ')
-        .map((word) => word.isNotEmpty 
+        .map((word) => word.isNotEmpty
             ? word[0].toUpperCase() + word.substring(1).toLowerCase()
             : word)
         .join(' ');

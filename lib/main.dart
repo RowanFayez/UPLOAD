@@ -11,10 +11,15 @@ BuildContext get appContext => appKey.currentContext!;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
+  print('🚀 Starting AlexTramApp...');
+
   // Configure dependency injection
+  print('🔧 Configuring dependencies...');
   configureDependencies();
-  
+  print('✅ Dependencies configured successfully');
+
+  print('🎨 Running app...');
   runApp(const AlexTramApp());
 }
 
@@ -31,6 +36,7 @@ class _AlexTramAppState extends State<AlexTramApp> {
   @override
   void initState() {
     super.initState();
+    print('📱 AlexTramApp initialized');
     _themeManager.addListener(() {
       setState(() {});
     });

@@ -18,8 +18,19 @@ class ApiProductRepository implements ProductRepository {
   @override
   Future<List<Product>> getAllProducts() async {
     try {
-      return await _apiClient.getProducts();
+      print('ProductRepository: Fetching all products...');
+      final products = await _apiClient.getProducts();
+      print(
+          'ProductRepository: Successfully fetched ${products.length} products');
+
+      if (products.isNotEmpty) {
+        print(
+            'ProductRepository: Sample product - ${products.first.title} (${products.first.category})');
+      }
+
+      return products;
     } catch (e) {
+      print('ProductRepository: Error fetching all products: $e');
       throw Exception('Failed to fetch products: $e');
     }
   }
@@ -27,8 +38,22 @@ class ApiProductRepository implements ProductRepository {
   @override
   Future<List<Product>> getProductsByCategory(String category) async {
     try {
-      return await _apiClient.getProductsByCategory(category);
+      print('ProductRepository: Fetching products for category: "$category"');
+      final products = await _apiClient.getProductsByCategory(category);
+      print(
+          'ProductRepository: Successfully fetched ${products.length} products for category: "$category"');
+
+      if (products.isNotEmpty) {
+        print(
+            'ProductRepository: Sample product from category "$category" - ${products.first.title}');
+      } else {
+        print('ProductRepository: No products found for category "$category"');
+      }
+
+      return products;
     } catch (e) {
+      print(
+          'ProductRepository: Error fetching products for category "$category": $e');
       throw Exception('Failed to fetch products by category: $e');
     }
   }
@@ -36,8 +61,13 @@ class ApiProductRepository implements ProductRepository {
   @override
   Future<Product> getProductById(int id) async {
     try {
-      return await _apiClient.getProduct(id);
+      print('ProductRepository: Fetching product with ID: $id');
+      final product = await _apiClient.getProduct(id);
+      print(
+          'ProductRepository: Successfully fetched product: ${product.title}');
+      return product;
     } catch (e) {
+      print('ProductRepository: Error fetching product with ID $id: $e');
       throw Exception('Failed to fetch product: $e');
     }
   }
@@ -45,8 +75,13 @@ class ApiProductRepository implements ProductRepository {
   @override
   Future<List<String>> getCategories() async {
     try {
-      return await _apiClient.getCategories();
+      print('ProductRepository: Fetching categories...');
+      final categories = await _apiClient.getCategories();
+      print('ProductRepository: Successfully fetched categories: $categories');
+      print('ProductRepository: Total categories count: ${categories.length}');
+      return categories;
     } catch (e) {
+      print('ProductRepository: Error fetching categories: $e');
       throw Exception('Failed to fetch categories: $e');
     }
   }
